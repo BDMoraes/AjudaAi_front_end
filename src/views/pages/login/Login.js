@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -15,8 +15,27 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import { login } from 'src/services/services'
 
 const Login = () => {
+  const [user, setUser] = useState({})
+
+  async function logUser() {
+    console.log('realizando login')
+    try {
+      await login(user)
+    } catch (e) {
+      console.log('Something happened loggin in.', e)
+    }
+  }
+
+  function handleChange(value, field) {
+    console.log(user)
+    const newUser = user
+    newUser[field] = value
+    setUser(newUser)
+  }
+
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -32,7 +51,11 @@ const Login = () => {
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Usuário" autoComplete="username" />
+                      <CFormInput
+                        placeholder="Usuário"
+                        autoComplete="username"
+                        onChange={(event) => handleChange(event.target.value, 'username')}
+                      />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -42,11 +65,12 @@ const Login = () => {
                         type="password"
                         placeholder="Senha"
                         autoComplete="current-password"
+                        onChange={(event) => handleChange(event.target.value, 'password')}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
+                        <CButton color="primary" className="px-4" onClick={logUser}>
                           Entrar
                         </CButton>
                       </CCol>
