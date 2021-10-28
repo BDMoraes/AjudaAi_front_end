@@ -208,11 +208,11 @@ const _nav = [
   //         text: 'NEW',
   //       },
   //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'CoreUI Flags',
-  //       to: '/icons/flags',
-  //     },
+  {
+    component: CNavItem,
+    name: 'CoreUI Flags',
+    to: '/icons/flags',
+  },
   //     {
   //       component: CNavItem,
   //       name: 'CoreUI Brands',
@@ -266,16 +266,16 @@ const _nav = [
   //   name: 'Pages',
   //   icon: <CIcon icon={cilStar} customClassName="nav-icon" />,
   //   items: [
-  //     {
-  //       component: CNavItem,
-  //       name: 'Login',
-  //       to: '/login',
-  //     },
-  //     {
-  //       component: CNavItem,
-  //       name: 'Register',
-  //       to: '/register',
-  //     },
+  {
+    component: CNavItem,
+    name: 'Login',
+    to: '/login',
+  },
+  {
+    component: CNavItem,
+    name: 'Register',
+    to: '/register',
+  },
   //     {
   //       component: CNavItem,
   //       name: 'Error 404',

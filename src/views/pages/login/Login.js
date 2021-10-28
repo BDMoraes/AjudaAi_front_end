@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -8,6 +8,7 @@ import {
   CCol,
   CContainer,
   CForm,
+  CFormFeedback,
   CFormInput,
   CInputGroup,
   CInputGroupText,
@@ -18,12 +19,14 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { login } from 'src/services/services'
 
 const Login = () => {
+  const history = useHistory()
+
   const [user, setUser] = useState({})
+  const [validated, setValidated] = useState(false)
 
   async function logUser() {
-    console.log('realizando login')
     try {
-      await login(user)
+      ;(await login(user)) && history.push('/dashboard')
     } catch (e) {
       console.log('Something happened loggin in.', e)
     }
@@ -36,6 +39,16 @@ const Login = () => {
     setUser(newUser)
   }
 
+  const handleSubmit = (event) => {
+    const form = event.currentTarget
+    if (form.checkValidity() === false) {
+      event.preventDefault()
+      event.stopPropagation()
+    }
+    setValidated(true)
+    logUser()
+  }
+
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
@@ -44,7 +57,12 @@ const Login = () => {
             <CCardGroup>
               <CCard className="p-4">
                 <CCardBody>
-                  <CForm>
+                  <CForm
+                    className="needs-validation"
+                    noValidate
+                    validated={validated}
+                    onSubmit={handleSubmit}
+                  >
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Entre na sua conta</p>
                     <CInputGroup className="mb-3">
@@ -54,8 +72,10 @@ const Login = () => {
                       <CFormInput
                         placeholder="Usuário"
                         autoComplete="username"
+                        required
                         onChange={(event) => handleChange(event.target.value, 'username')}
                       />
+                      <CFormFeedback invalid>Por favor, preencha o nome de usuário.</CFormFeedback>
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -65,12 +85,14 @@ const Login = () => {
                         type="password"
                         placeholder="Senha"
                         autoComplete="current-password"
+                        required
                         onChange={(event) => handleChange(event.target.value, 'password')}
                       />
+                      <CFormFeedback invalid>Por favor, preencha a senha.</CFormFeedback>
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4" onClick={logUser}>
+                        <CButton color="primary" className="px-4" type={'submit'}>
                           Entrar
                         </CButton>
                       </CCol>
