@@ -13,9 +13,20 @@ import {
   CInputGroupText,
   CInputGroup,
 } from '@coreui/react'
+import { createEvent } from 'src/services/services'
 
 const Register_events = () => {
+  const [form, setForm] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    birthdate: '',
+    password: '',
+    repeatPassword: '',
+  })
+
   const [validated, setValidated] = useState(false)
+
   const handleSubmit = (event) => {
     const form = event.currentTarget
     if (form.checkValidity() === false) {
@@ -23,7 +34,11 @@ const Register_events = () => {
       event.stopPropagation()
     }
     setValidated(true)
+    postNewEvent()
   }
+
+  const postNewEvent = () => {}
+
   return (
     <CCard className="mb-4">
       <CCardHeader>

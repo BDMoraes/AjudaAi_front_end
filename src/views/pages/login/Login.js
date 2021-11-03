@@ -33,7 +33,6 @@ const Login = () => {
   }
 
   function handleChange(value, field) {
-    console.log(user)
     const newUser = user
     newUser[field] = value
     setUser(newUser)

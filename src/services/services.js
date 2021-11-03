@@ -14,7 +14,7 @@ export const login = async ({ username, password }) => {
     })
 }
 
-export const createUser = async ({ fullName, phone, email, age, password }) => {
+export const createUser = async ({ fullName, phone, email, birthDate, password }) => {
   return await axios
     .post('usuario/create_usuario', {
       login: email,
@@ -22,7 +22,45 @@ export const createUser = async ({ fullName, phone, email, age, password }) => {
       nome: fullName,
       telefone: phone,
       email: email,
-      idade: age,
+      datanascimento: birthDate,
+    })
+    .then(function (response) {
+      return true
+    })
+    .catch(function (error) {
+      return false
+    })
+}
+
+export const findEvents = async () => {
+  return await axios
+    .get('evento/get_eventos_publicos')
+    .then(function (response) {
+      return response?.data?.consulta
+    })
+    .catch(function (error) {
+      return false
+    })
+}
+
+export const createEvent = async ({
+  title,
+  description,
+  location,
+  category,
+  startDate,
+  endDate,
+  image,
+}) => {
+  return await axios
+    .post('evento/create_evento', {
+      titulo: title,
+      descricao: description,
+      localizacao: location,
+      inicio: startDate,
+      termino: endDate,
+      categoria: category,
+      imagem: image,
     })
     .then(function (response) {
       return true

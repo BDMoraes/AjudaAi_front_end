@@ -25,7 +25,7 @@ const Register = () => {
     fullName: '',
     phone: '',
     email: '',
-    age: '',
+    birthdate: '',
     password: '',
     repeatPassword: '',
   })
@@ -49,15 +49,16 @@ const Register = () => {
 
   const registerUser = async () => {
     try {
-      ;(await createUser(form)) && history.push('/login')
+      const formattedForm = Object.assign({}, form)
+      const birthDateParts = formattedForm.birthdate.split('-')
+      formattedForm.birthDate = `${birthDateParts[2]}/${birthDateParts[1]}/${birthDateParts[0]}`
+      ;(await createUser(formattedForm)) && history.push('/login')
     } catch (error) {
       console.log('Something happened loggin in.', error)
     }
   }
 
   const handleInputChange = (name, value) => {
-    console.log(name, value, form)
-
     !repeateadPasswordCorrect && setRepeatedPasswordCorrect(true)
 
     setForm((actualForm) => ({
@@ -86,7 +87,7 @@ const Register = () => {
                       type="text"
                       autoComplete="name"
                       placeholder="Nome completo"
-                      value={form.fullName.value}
+                      value={form.fullName}
                       onChange={(event) => handleInputChange('fullName', event.target.value)}
                     />
                   </CInputGroup>
@@ -100,7 +101,7 @@ const Register = () => {
                       minLength={10}
                       autoComplete="tel"
                       placeholder="Telefone"
-                      value={form.phone.value}
+                      value={form.phone}
                       onChange={(event) => handleInputChange('phone', event.target.value)}
                     />
                   </CInputGroup>
@@ -112,7 +113,7 @@ const Register = () => {
                       minLength={5}
                       autoComplete="email"
                       placeholder="Email"
-                      value={form.email.value}
+                      value={form.email}
                       onChange={(event) => handleInputChange('email', event.target.value)}
                     />
                   </CInputGroup>
@@ -121,14 +122,12 @@ const Register = () => {
                       <CIcon icon={cilCalendar} />
                     </CInputGroupText>
                     <CFormInput
-                      type={'number'}
-                      max={123}
-                      min={18}
+                      type={'date'}
                       required
-                      placeholder="Idade"
-                      autoComplete="age"
-                      value={form.age.value}
-                      onChange={(event) => handleInputChange('age', event.target.value)}
+                      placeholder="Data de nascimento"
+                      autoComplete="birthdate"
+                      value={form.birthdate}
+                      onChange={(event) => handleInputChange('birthdate', event.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
@@ -141,7 +140,7 @@ const Register = () => {
                       minLength={8}
                       placeholder="Senha"
                       autoComplete="new-password"
-                      value={form.password.value}
+                      value={form.password}
                       onChange={(event) => handleInputChange('password', event.target.value)}
                     />
                   </CInputGroup>
@@ -155,7 +154,7 @@ const Register = () => {
                       type="password"
                       placeholder="Repetir a senha"
                       autoComplete="new-password"
-                      value={form.repeatPassword.value}
+                      value={form.repeatPassword}
                       onChange={(event) => handleInputChange('repeatPassword', event.target.value)}
                     />
                     <CFormFeedback invalid>

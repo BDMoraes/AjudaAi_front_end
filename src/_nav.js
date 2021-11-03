@@ -208,11 +208,22 @@ const _nav = [
   //         text: 'NEW',
   //       },
   //     },
+  // {
+  //   component: CNavItem,
+  //   name: 'CoreUI Flags',
+  //   to: '/icons/flags',
+  // },
   {
     component: CNavItem,
-    name: 'CoreUI Flags',
-    to: '/icons/flags',
+    name: 'Eventos',
+    to: '/events',
   },
+  {
+    component: CNavItem,
+    name: 'Cadastrar eventos',
+    to: '/register-events',
+  },
+
   //     {
   //       component: CNavItem,
   //       name: 'CoreUI Brands',
