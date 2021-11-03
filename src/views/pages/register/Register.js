@@ -35,6 +35,7 @@ const Register = () => {
   const handleSubmit = (event) => {
     if (form.password !== form.repeatPassword) {
       setRepeatedPasswordCorrect(false)
+      return
     }
 
     const validationForm = event.currentTarget
@@ -75,7 +76,6 @@ const Register = () => {
                 <CForm className="needs-validation" validated={validated} onSubmit={handleSubmit}>
                   <h1>Cadastro</h1>
                   <p className="text-medium-emphasis">Crie sua conta</p>
-                  <CFormLabel htmlFor="exampleFormControlInput1">Email address</CFormLabel>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilText} />
@@ -153,7 +153,7 @@ const Register = () => {
                       invalid={!repeateadPasswordCorrect}
                       required
                       type="password"
-                      placeholder="Senha"
+                      placeholder="Repetir a senha"
                       autoComplete="new-password"
                       value={form.repeatPassword.value}
                       onChange={(event) => handleInputChange('repeatPassword', event.target.value)}
