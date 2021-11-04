@@ -42,6 +42,9 @@ const Events = () => {
                     <CButton color="primary" className="float-end">
                       Participar
                     </CButton>
+                    <CButton color="success" className="float-end">
+                      Detalhar
+                    </CButton>
                   </CCol>
                 </CRow>
                 <CRow>

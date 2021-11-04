@@ -223,6 +223,11 @@ const _nav = [
     name: 'Cadastrar eventos',
     to: '/register-events',
   },
+  {
+    component: CNavItem,
+    name: 'Detalhes do evento',
+    to: '/details',
+  },
 
   //     {
   //       component: CNavItem,
