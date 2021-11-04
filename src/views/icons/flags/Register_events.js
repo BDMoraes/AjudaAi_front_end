@@ -17,19 +17,20 @@ import { createEvent } from 'src/services/services'
 
 const Register_events = () => {
   const [form, setForm] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    birthdate: '',
-    password: '',
-    repeatPassword: '',
+    title: '',
+    description: '',
+    location: '',
+    category: 'MAO_DE_OBRA',
+    startDate: '',
+    endDate: '',
+    image: '',
   })
 
   const [validated, setValidated] = useState(false)
 
   const handleSubmit = (event) => {
-    const form = event.currentTarget
-    if (form.checkValidity() === false) {
+    const currentForm = event.currentTarget
+    if (currentForm.checkValidity() === false) {
       event.preventDefault()
       event.stopPropagation()
     }
@@ -37,7 +38,39 @@ const Register_events = () => {
     postNewEvent()
   }
 
-  const postNewEvent = () => {}
+  const handleChange = (name, value) => {
+    setForm((actualForm) => ({
+      ...actualForm,
+      [name]: value,
+    }))
+  }
+
+  const handleImageChange = async (event) => {
+    const eventImage = event.target.files[0]
+    const base64Image = await convertBase64(eventImage)
+
+    setForm((actualForm) => ({
+      ...actualForm,
+      image: base64Image,
+    }))
+  }
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader()
+      fileReader.readAsDataURL(file)
+      fileReader.onload = () => {
+        resolve(fileReader.result)
+      }
+      fileReader.onerror = (error) => {
+        reject(error)
+      }
+    })
+  }
+
+  const postNewEvent = () => {
+    createEvent(form)
+  }
 
   return (
     <CCard className="mb-4">
@@ -58,6 +91,8 @@ const Register_events = () => {
               id="inputTitulo"
               placeholder="Ex: Campanha de arrecadação de roupas dos guris"
               required
+              value={form.title}
+              onChange={(event) => handleChange('title', event.target.value)}
             />
             <CFormFeedback invalid>Insira um nome para o evento.</CFormFeedback>
             <CFormFeedback valid>Título válido</CFormFeedback>
@@ -69,6 +104,8 @@ const Register_events = () => {
               id="inputDescricao"
               placeholder="Ex: Este evento destina-se à arrecadação de..."
               required
+              value={form.description}
+              onChange={(event) => handleChange('description', event.target.value)}
             />
             <CFormFeedback invalid>Insira uma descrição válida.</CFormFeedback>
             <CFormFeedback valid>Descrição válida</CFormFeedback>
@@ -80,13 +117,20 @@ const Register_events = () => {
               id="inputLocalizacao"
               placeholder="Ex: Sapucaia do Sul"
               required
+              value={form.location}
+              onChange={(event) => handleChange('location', event.target.value)}
             />
             <CFormFeedback invalid>Insira uma localização válida.</CFormFeedback>
             <CFormFeedback valid>Localização válida</CFormFeedback>
           </CCol>
           <CCol xs={12}>
             <CFormLabel htmlFor="selectCategoria">Categoria do evento:</CFormLabel>
-            <CFormSelect id="selectCategoria" required>
+            <CFormSelect
+              id="selectCategoria"
+              required
+              value={form.category}
+              onChange={(event) => handleChange('category', event.target.value)}
+            >
               <option value="MAO_DE_OBRA">Mão de obra</option>
               <option value="AJUDA_FINANCEIRA">Ajuda financeira</option>
               <option value="ALIMENTOS">Alimentos</option>
@@ -96,19 +140,37 @@ const Register_events = () => {
           </CCol>
           <CCol md={6}>
             <CFormLabel htmlFor="inputDataInicio">Data e horário de início:</CFormLabel>
-            <CFormInput type="text" id="inputDataInicio" placeholder="24/10/2021 20:50" required />
+            <CFormInput
+              type="text"
+              id="inputDataInicio"
+              placeholder="24/10/2021 20:50"
+              required
+              value={form.startDate}
+              onChange={(event) => handleChange('startDate', event.target.value)}
+            />
             <CFormFeedback invalid>Insira uma data válida.</CFormFeedback>
             <CFormFeedback valid>Data válida</CFormFeedback>
           </CCol>
           <CCol md={6}>
             <CFormLabel htmlFor="inputDataTermino">Data e horário de término:</CFormLabel>
-            <CFormInput type="text" id="inputDataTermino" placeholder="25/10/2021 20:50" required />
+            <CFormInput
+              type="text"
+              id="inputDataTermino"
+              placeholder="25/10/2021 20:50"
+              required
+              value={form.endDate}
+              onChange={(event) => handleChange('endDate', event.target.value)}
+            />
             <CFormFeedback invalid>Insira uma data válida.</CFormFeedback>
             <CFormFeedback valid>Data válida</CFormFeedback>
           </CCol>
           <CCol xs={12}>
             <CFormLabel htmlFor="inputDataInicio">Imagem do evento:</CFormLabel>
-            <CInputGroup className="mb-3">
+            <CInputGroup
+              className="mb-3"
+              value={form.image}
+              onChange={(event) => handleImageChange(event)}
+            >
               <CInputGroupText component="label" htmlFor="inputGroupFile01">
                 Upload
               </CInputGroupText>

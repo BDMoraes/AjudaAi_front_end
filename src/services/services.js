@@ -1,6 +1,8 @@
 const axios = require('axios').default
 
 axios.defaults.baseURL = 'https://appajudaai.herokuapp.com'
+// axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
+axios.defaults.headers.post['Access-Control-Allow-Credentials'] = true
 
 export const login = async ({ username, password }) => {
   return await axios
