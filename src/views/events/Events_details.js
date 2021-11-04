@@ -13,117 +13,50 @@ import {
   CInputGroupText,
   CInputGroup,
 } from '@coreui/react'
-import { createEvent } from 'src/services/services'
 
-const Register_events = () => {
-  const [form, setForm] = useState({
-    fullName: '',
-    phone: '',
-    email: '',
-    birthdate: '',
-    password: '',
-    repeatPassword: '',
-  })
-
-  const [validated, setValidated] = useState(false)
-
-  const handleSubmit = (event) => {
-    const form = event.currentTarget
-    if (form.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
-    setValidated(true)
-    postNewEvent()
+const Detail_events = () => {
+  const event = {
+    pkcodevento: 1,
+    titulo: 'evento',
+    descricao: 'desc do ',
+    localizacao: 'Taquara',
+    datahora: '03/11/2021, 23:03',
+    inicio: '24/10/2021 20:50',
+    termin: '24/10/2021 20:55',
+    imagem:
+      'http://s2.glbimg.com/z_gIOSUdsxyNGClgVLYVBHBziyw=/0x0:400x400/400x400/s.glbimg.com/po/tt2/f/original/2016/05/20/new-google-favicon-logo.png',
+    categoria: 'TESTE2',
+    criador: 1,
+    ativo: true,
   }
-
-  const postNewEvent = () => {}
 
   return (
     <CCard className="mb-4">
       <CCardHeader>
-        <h1>Cadastro de eventos</h1>
+        <h1>{event.titulo}</h1>
       </CCardHeader>
       <CCardBody>
-        <CForm
-          className="row g-3 needs-validation"
-          noValidate
-          validated={validated}
-          onSubmit={handleSubmit}
-        >
-          <CCol xs={12}>
-            <CFormLabel htmlFor="inputTitulo">Título do evento:</CFormLabel>
-            <CFormInput
-              type="text"
-              id="inputTitulo"
-              placeholder="Ex: Campanha de arrecadação de roupas dos guris"
-              required
-            />
-            <CFormFeedback invalid>Insira um nome para o evento.</CFormFeedback>
-            <CFormFeedback valid>Título válido</CFormFeedback>
-          </CCol>
-          <CCol xs={12}>
-            <CFormLabel htmlFor="inputDescricao">Descrição do evento:</CFormLabel>
-            <CFormInput
-              type="text"
-              id="inputDescricao"
-              placeholder="Ex: Este evento destina-se à arrecadação de..."
-              required
-            />
-            <CFormFeedback invalid>Insira uma descrição válida.</CFormFeedback>
-            <CFormFeedback valid>Descrição válida</CFormFeedback>
-          </CCol>
-          <CCol xs={12}>
-            <CFormLabel htmlFor="inputLocalizacao">Localização do evento:</CFormLabel>
-            <CFormInput
-              type="text"
-              id="inputLocalizacao"
-              placeholder="Ex: Sapucaia do Sul"
-              required
-            />
-            <CFormFeedback invalid>Insira uma localização válida.</CFormFeedback>
-            <CFormFeedback valid>Localização válida</CFormFeedback>
-          </CCol>
-          <CCol xs={12}>
-            <CFormLabel htmlFor="selectCategoria">Categoria do evento:</CFormLabel>
-            <CFormSelect id="selectCategoria" required>
-              <option value="MAO_DE_OBRA">Mão de obra</option>
-              <option value="AJUDA_FINANCEIRA">Ajuda financeira</option>
-              <option value="ALIMENTOS">Alimentos</option>
-              <option value="ROUPAS">Roupas</option>
-              <option value="OUTROS">Outros</option>
-            </CFormSelect>
-          </CCol>
-          <CCol md={6}>
-            <CFormLabel htmlFor="inputDataInicio">Data e horário de início:</CFormLabel>
-            <CFormInput type="text" id="inputDataInicio" placeholder="24/10/2021 20:50" required />
-            <CFormFeedback invalid>Insira uma data válida.</CFormFeedback>
-            <CFormFeedback valid>Data válida</CFormFeedback>
-          </CCol>
-          <CCol md={6}>
-            <CFormLabel htmlFor="inputDataTermino">Data e horário de término:</CFormLabel>
-            <CFormInput type="text" id="inputDataTermino" placeholder="25/10/2021 20:50" required />
-            <CFormFeedback invalid>Insira uma data válida.</CFormFeedback>
-            <CFormFeedback valid>Data válida</CFormFeedback>
-          </CCol>
-          <CCol xs={12}>
-            <CFormLabel htmlFor="inputDataInicio">Imagem do evento:</CFormLabel>
-            <CInputGroup className="mb-3">
-              <CInputGroupText component="label" htmlFor="inputGroupFile01">
-                Upload
-              </CInputGroupText>
-              <CFormInput type="file" id="inputGroupFile01" required />
-            </CInputGroup>
-          </CCol>
-          <CCol md={6}>
-            <CButton color="primary" type="submit">
-              Registrar
-            </CButton>
-          </CCol>
-        </CForm>
+        <CCol xs={12}>
+          <h3>{event.descricao}</h3>
+        </CCol>
+        <CCol xs={12}>
+          <h3>{event.localizacao}</h3>
+        </CCol>
+        <CCol xs={12}>
+          <h3>{event.inicio}</h3>
+        </CCol>
+        <CCol xs={12}>
+          <h3>{event.termin}</h3>
+        </CCol>
+        <CCol xs={12}>
+          <h3>{event.categoria}</h3>
+        </CCol>
+        <CCol md={{ span: 6, offset: 3 }}>
+          <img style={{ 'max-height': '200px' }} src={event.imagem} />
+        </CCol>
       </CCardBody>
     </CCard>
   )
 }
 
-export default Register_events
+export default Detail_events
