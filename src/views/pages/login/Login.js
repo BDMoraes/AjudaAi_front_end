@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import {
   CButton,
@@ -13,6 +13,9 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
+  CToast,
+  CToastBody,
+  CToastHeader,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
@@ -26,10 +29,11 @@ const Login = () => {
 
   async function logUser() {
     try {
-      ;(await login(user)) && history.push('/dashboard')
-    } catch (e) {
-      console.log('Something happened loggin in.', e)
-    }
+      const result = await login(user)
+      if (result) {
+        history.push('/dashboard')
+      }
+    } catch (e) {}
   }
 
   function handleChange(value, field) {
@@ -45,7 +49,9 @@ const Login = () => {
       event.stopPropagation()
     }
     setValidated(true)
-    logUser()
+    if (user.username && user.password) {
+      logUser()
+    }
   }
 
   return (
@@ -89,6 +95,11 @@ const Login = () => {
                       />
                       <CFormFeedback invalid>Por favor, preencha a senha.</CFormFeedback>
                     </CInputGroup>
+                    {/* {errorMessage && (
+                      <div className="alert alert-danger" role="alert">
+                        {errorMessage}
+                      </div>
+                    )} */}
                     <CRow>
                       <CCol xs={6}>
                         <CButton color="primary" className="px-4" type={'submit'}>

@@ -1,8 +1,17 @@
+import React, { useRef } from 'react'
+import { CToaster } from '@coreui/react'
+
 const axios = require('axios').default
 
 axios.defaults.baseURL = 'https://appajudaai.herokuapp.com'
 // axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*'
 axios.defaults.headers.post['Access-Control-Allow-Credentials'] = true
+
+let toasterCallbackFunction
+
+export const toasterCallback = (callback) => {
+  toasterCallbackFunction = callback
+}
 
 export const login = async ({ username, password }) => {
   return await axios
@@ -12,6 +21,11 @@ export const login = async ({ username, password }) => {
       return true
     })
     .catch(function (error) {
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao realizar login.',
+        body: 'Usuário ou senha inválidos.',
+      })
       return false
     })
 }
