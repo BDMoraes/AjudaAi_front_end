@@ -41,6 +41,7 @@ const Charts = React.lazy(() => import('./views/charts/Charts'))
 // Icons
 const CoreUIIcons = React.lazy(() => import('./views/icons/coreui-icons/CoreUIIcons'))
 const Register_events = React.lazy(() => import('./views/icons/flags/Register_events'))
+const Edit_register = React.lazy(() => import('./views/pages/register/Edit_register'))
 const Brands = React.lazy(() => import('./views/icons/brands/Brands'))
 
 // Notifications
@@ -57,6 +58,7 @@ const routes = [
   { path: '/events', name: 'Eventos', component: Events },
   { path: '/details', name: 'Detalhes do Evento', component: Events_details },
   { path: '/register-events', name: 'Cadastrar evento', component: Register_events },
+  { path: '/edit-register', name: 'Editar cadastro', component: Edit_register },
   // { path: '/theme', name: 'Theme', component: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
   // { path: '/theme/typography', name: 'Typography', component: Typography },

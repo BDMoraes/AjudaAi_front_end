@@ -228,6 +228,11 @@ const _nav = [
     name: 'Detalhes do evento',
     to: '/details',
   },
+  {
+    component: CNavItem,
+    name: 'Editar cadastro',
+    to: '/edit-register',
+  },
 
   //     {
   //       component: CNavItem,
