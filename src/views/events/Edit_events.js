@@ -75,7 +75,7 @@ const Register_events = () => {
   return (
     <CCard className="mb-4">
       <CCardHeader>
-        <h1>Edição de eventos</h1>
+        <h1>Edição de evento</h1>
       </CCardHeader>
       <CCardBody>
         <CForm
