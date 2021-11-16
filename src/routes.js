@@ -3,6 +3,9 @@ import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Events = React.lazy(() => import('./views/events/Events'))
 const Events_details = React.lazy(() => import('./views/events/Events_details'))
+const User_events = React.lazy(() => import('./views/events/User_events'))
+const Edit_events = React.lazy(() => import('./views/events/Edit_events'))
+
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -58,7 +61,9 @@ const routes = [
   { path: '/events', name: 'Eventos', component: Events },
   { path: '/details', name: 'Detalhes do Evento', component: Events_details },
   { path: '/register-events', name: 'Cadastrar evento', component: Register_events },
+  { path: '/edit-events', name: 'Editar evento', component: Edit_events },
   { path: '/edit-register', name: 'Editar cadastro', component: Edit_register },
+  { path: '/user-events', name: 'Meus eventos', component: User_events },
   // { path: '/theme', name: 'Theme', component: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', component: Colors },
   // { path: '/theme/typography', name: 'Typography', component: Typography },
