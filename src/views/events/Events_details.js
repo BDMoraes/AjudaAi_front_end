@@ -85,8 +85,10 @@ const Detail_events = () => {
         </CRow>
         <CRow className="justify-content-center">
           <div className="d-grid gap-2">
-            <CButton color="success">Participar</CButton>
-            <CButton color="danger">Voltar</CButton>
+            <CButton color="success">Voluntariar-se</CButton>
+            <CButton color="warning">Editar</CButton>
+            <CButton color="danger">Excluir evento</CButton>
+            <CButton>Voltar</CButton>
           </div>
         </CRow>
       </CCardBody>

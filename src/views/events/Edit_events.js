@@ -177,11 +177,12 @@ const Register_events = () => {
               <CFormInput type="file" id="inputGroupFile01" required />
             </CInputGroup>
           </CCol>
-          <CCol md={6}>
+          <div className="d-grid gap-2">
             <CButton color="primary" type="submit">
-              Registrar
+              Salvar
             </CButton>
-          </CCol>
+            <CButton color="danger">Voltar</CButton>
+          </div>
         </CForm>
       </CCardBody>
     </CCard>

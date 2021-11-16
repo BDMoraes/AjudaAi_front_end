@@ -194,9 +194,12 @@ const Edit_register = () => {
               />
               <CFormFeedback invalid>A senha é diferente da informada anteriormente.</CFormFeedback>
             </CInputGroup>
-            <CButton color="primary" className="col-sm-12" type={'submit'}>
-              Salvar
-            </CButton>
+            <div className="d-grid gap-2">
+              <CButton color="primary" className="col-sm-12" type={'submit'}>
+                Salvar
+              </CButton>
+              <CButton color="danger">Voltar</CButton>
+            </div>
           </CForm>
         </CCardBody>
       </CCard>
