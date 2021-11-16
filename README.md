@@ -1,3 +1,25 @@
+# Pendente:
+
+## Telas:
+
+- ver evento individual
+- ver eventos públicos (sem logar)
+- ver meus eventos
+  - vai mostrar os eventos que eu criei
+- recuperação de senha
+  - vai listar os participantes do evento se foi eu q criei
+  - permite excluir evento
+  - botão editar evento
+- tela de edição do evento
+- tela de edição do perfil
+
+# Ajustes:
+
+- n permitir acessar tela se n tá logado
+- salvar token no localStorage
+- botão sair tem q deslogar
+- botão home deve levar pra tela de eventos
+
 [![@coreui coreui](https://img.shields.io/badge/@coreui%20-coreui-lightgrey.svg?style=flat-square)](https://github.com/coreui/coreui)
 [![npm package][npm-coreui-badge]][npm-coreui]
 [![NPM downloads][npm-coreui-download]][npm-coreui]  
@@ -21,33 +43,33 @@ CoreUI is meant to be the UX game changer. Pure & transparent code is devoid of 
 
 ## Table of Contents
 
-* [Versions](#versions)
-* [CoreUI Pro](#coreui-pro)
-* [Quick Start](#quick-start)
-* [Installation](#installation)
-* [Basic usage](#basic-usage)
-* [What's included](#whats-included)
-* [Documentation](#documentation)
-* [Versioning](#versioning)
-* [Creators](#creators)
-* [Community](#community)
-* [Copyright and License](#copyright-and-license)
+- [Versions](#versions)
+- [CoreUI Pro](#coreui-pro)
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Basic usage](#basic-usage)
+- [What's included](#whats-included)
+- [Documentation](#documentation)
+- [Versioning](#versioning)
+- [Creators](#creators)
+- [Community](#community)
+- [Copyright and License](#copyright-and-license)
 
 ## Versions
 
-* [CoreUI Free Bootstrap Admin Template](https://github.com/coreui/coreui-free-bootstrap-admin-template)
-* [CoreUI Free Angular Admin Template](https://github.com/coreui/coreui-free-angular-admin-template)
-* [CoreUI Free React.js Admin Template](https://github.com/coreui/coreui-free-react-admin-template)
-* [CoreUI Free Vue.js Admin Template](https://github.com/coreui/coreui-free-vue-admin-template)
+- [CoreUI Free Bootstrap Admin Template](https://github.com/coreui/coreui-free-bootstrap-admin-template)
+- [CoreUI Free Angular Admin Template](https://github.com/coreui/coreui-free-angular-admin-template)
+- [CoreUI Free React.js Admin Template](https://github.com/coreui/coreui-free-react-admin-template)
+- [CoreUI Free Vue.js Admin Template](https://github.com/coreui/coreui-free-vue-admin-template)
 
 ## CoreUI Pro
 
 **Only customers with [Enterpise Membership Plan](https://coreui.io/pro/#buy) have access to private github CoreUI Pro repository.**
 
-* 💪  [CoreUI Pro Bootstrap Admin Template](https://coreui.io/pro/)
-* 💪  [CoreUI Pro Angular Admin Template](https://coreui.io/pro/angular)
-* 💪  [CoreUI Pro React Admin Template](https://coreui.io/pro/react)
-* 💪  [CoreUI Pro Vue Admin Template](https://coreui.io/pro/vue)
+- 💪 [CoreUI Pro Bootstrap Admin Template](https://coreui.io/pro/)
+- 💪 [CoreUI Pro Angular Admin Template](https://coreui.io/pro/angular)
+- 💪 [CoreUI Pro React Admin Template](https://coreui.io/pro/react)
+- 💪 [CoreUI Pro Vue Admin Template](https://coreui.io/pro/vue)
 
 ## Quick Start
 
@@ -56,26 +78,26 @@ CoreUI is meant to be the UX game changer. Pure & transparent code is devoid of 
 
 ### Instalation
 
-``` bash
+```bash
 $ npm install
 ```
 
 or
 
-``` bash
+```bash
 $ yarn install
 ```
 
 ### Basic usage
 
-``` bash
+```bash
 # dev server with hot reload at http://localhost:3000
 $ npm start
 ```
 
-or 
+or
 
-``` bash
+```bash
 # dev server with hot reload at http://localhost:3000
 $ yarn start
 ```
@@ -118,7 +140,7 @@ coreui-free-react-admin-template
 │   ├── ...
 │   ├── index.js
 │   ├── routes.js    # routes config
-│   └── store.js     # template state example 
+│   └── store.js     # template state example
 │
 └── package.json
 ```
@@ -136,12 +158,14 @@ See [the Releases section of our project](https://github.com/coreui/coreui-free-
 ## Creators
 
 **Łukasz Holeczek**
-* <https://twitter.com/lukaszholeczek>
-* <https://github.com/mrholek>
-* <https://github.com/coreui>
+
+- <https://twitter.com/lukaszholeczek>
+- <https://github.com/mrholek>
+- <https://github.com/coreui>
 
 **CoreUI team**
-* https://github.com/orgs/coreui/people
+
+- https://github.com/orgs/coreui/people
 
 ## Community
 
@@ -152,9 +176,8 @@ Get updates on CoreUI's development and chat with the project maintainers and co
 
 ## Copyright and License
 
-copyright 2021 creativeLabs Łukasz Holeczek.   
+copyright 2021 creativeLabs Łukasz Holeczek.
 
- 
 Code released under [the MIT license](https://github.com/coreui/coreui-free-react-admin-template/blob/master/LICENSE).
 There is only one limitation you can't can’t re-distribute the CoreUI as stock. You can’t do this if you modify the CoreUI. In past we faced some problems with persons who tried to sell CoreUI based templates.
 
