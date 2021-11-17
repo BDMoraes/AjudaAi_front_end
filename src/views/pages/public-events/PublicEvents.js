@@ -18,8 +18,6 @@ const PublicEvents = () => {
     return <div>Nenhum evento cadastrado</div>
   }
 
-  console.log({ events })
-
   return (
     <>
       <CRow>

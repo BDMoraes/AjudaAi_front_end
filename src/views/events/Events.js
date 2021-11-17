@@ -10,13 +10,7 @@ const Events = () => {
   useEffect(() => {
     const getEvents = async () => {
       const newestEvents = await findEvents()
-      setEvents([
-        ...newestEvents,
-        ...newestEvents,
-        ...newestEvents,
-        ...newestEvents,
-        ...newestEvents,
-      ])
+      setEvents(newestEvents)
     }
     getEvents()
   }, [])

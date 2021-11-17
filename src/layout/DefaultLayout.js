@@ -9,6 +9,7 @@ const DefaultLayout = () => {
   const isTokenValid = authData?.expireTimestamp && authData.expireTimestamp > +new Date()
 
   if (!isTokenValid) {
+    console.log('redirecionando usuário para login a partir de DefaultLayouts')
     localStorage.removeItem('auth')
     history.push('/login')
     return <div />
