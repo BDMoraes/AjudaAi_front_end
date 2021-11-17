@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useHistory } from 'react-router-dom'
 import {
   CButton,
@@ -13,9 +13,6 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-  CToast,
-  CToastBody,
-  CToastHeader,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
@@ -27,13 +24,21 @@ const Login = () => {
   const [user, setUser] = useState({})
   const [validated, setValidated] = useState(false)
 
+  useEffect(() => {
+    const authData = JSON.parse(localStorage.getItem('auth'))
+
+    const isTokenValid = authData?.expireTimestamp && authData.expireTimestamp > +new Date()
+
+    if (isTokenValid) {
+      history.push('/dashboard')
+    }
+  }, [])
+
   async function logUser() {
-    try {
-      const result = await login(user)
-      if (result) {
-        history.push('/dashboard')
-      }
-    } catch (e) {}
+    const result = await login(user)
+    if (result) {
+      history.push('/dashboard')
+    }
   }
 
   function handleChange(value, field) {

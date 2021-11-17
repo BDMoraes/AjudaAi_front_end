@@ -56,7 +56,18 @@ const App = () => {
       <HashRouter>
         <React.Suspense fallback={loading}>
           <Switch>
-            <Route exact path="/login" name="Login Page" render={(props) => <Login {...props} />} />
+            <Route
+              exact
+              path="/login"
+              name="Página de Login"
+              render={(props) => <Login {...props} />}
+            />
+            <Route
+              exact
+              path="/events"
+              name="Eventos"
+              render={(props) => <Register {...props} />}
+            />
             <Route
               exact
               path="/register"

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import {
   CButton,
@@ -12,20 +12,13 @@ import {
   CInputGroup,
   CInputGroupText,
   CRow,
-  CToast,
-  CToastBody,
-  CToaster,
-  CToastHeader,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilCalendar, cilLockLocked, cilPhone, cilText, cilUser } from '@coreui/icons'
+import { cilCalendar, cilLockLocked, cilPhone, cilText } from '@coreui/icons'
 import { createUser } from 'src/services/services'
 
 const Register = () => {
   const history = useHistory()
-  const [toast, addToast] = useState(0)
-
-  const toaster = useRef()
 
   const [form, setForm] = useState({
     fullName: '',
@@ -57,42 +50,13 @@ const Register = () => {
   }
 
   const registerUser = async () => {
-    try {
-      const formattedForm = Object.assign({}, form)
-      const birthDateParts = formattedForm.birthdate.split('-')
-      formattedForm.birthDate = `${birthDateParts[2]}/${birthDateParts[1]}/${birthDateParts[0]}`
-      const response = await createUser(formattedForm)
-      if (!response) {
-        history.push('/login')
-      } else {
-        showWarning('Ocorreu um erro, tente novamente mais tarde.')
-      }
-    } catch (error) {
-      showWarning('Ocorreu um erro, tente novamente mais tarde.')
-      console.log('Something happened loggin in.', error)
+    const formattedForm = Object.assign({}, form)
+    const birthDateParts = formattedForm.birthdate.split('-')
+    formattedForm.birthDate = `${birthDateParts[2]}/${birthDateParts[1]}/${birthDateParts[0]}`
+    const response = await createUser(formattedForm)
+    if (response) {
+      history.push('/login')
     }
-  }
-
-  function showWarning(message) {
-    addToast(
-      <CToast title="Ops!">
-        <CToastHeader close>
-          <svg
-            className="rounded me-2"
-            width="20"
-            height="20"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid slice"
-            focusable="false"
-            role="img"
-          >
-            <rect width="100%" height="100%" fill="red"></rect>
-          </svg>
-          <strong className="me-auto">{'Ops!'}</strong>
-        </CToastHeader>
-        <CToastBody>{message}</CToastBody>
-      </CToast>,
-    )
   }
 
   const handleInputChange = (name, value) => {
@@ -106,7 +70,6 @@ const Register = () => {
 
   return (
     <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CToaster ref={toaster} push={toast} placement="top-end" />
       <CContainer>
         <CRow className="justify-content-center">
           <CCol md={9} lg={7} xl={6}>

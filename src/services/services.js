@@ -17,8 +17,11 @@ export const login = async ({ username, password }) => {
   return await axios
     .post('/login', { login: username, senha: password })
     .then(function (response) {
-      //axios.defaults.headers.common['Authorization'] = `bearer ${user.token}`
-      return true
+      if (response?.data?.token) {
+        setToken(response.data.token)
+        return true
+      }
+      return false
     })
     .catch(function (error) {
       toasterCallbackFunction({
@@ -28,6 +31,19 @@ export const login = async ({ username, password }) => {
       })
       return false
     })
+}
+
+const setToken = (access_token) => {
+  const date = new Date()
+  date.setHours(date.getHours() + 1)
+
+  const key = 'auth'
+  const value = JSON.stringify({
+    accessToken: access_token,
+    expireTimestamp: +date,
+  })
+
+  localStorage.setItem(key, value)
 }
 
 export const createUser = async ({ fullName, phone, email, birthDate, password }) => {
@@ -44,6 +60,11 @@ export const createUser = async ({ fullName, phone, email, birthDate, password }
       return true
     })
     .catch(function (error) {
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao cadastrar usuário.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
       return false
     })
 }
