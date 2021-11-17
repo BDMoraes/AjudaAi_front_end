@@ -46,6 +46,14 @@ const setToken = (access_token) => {
   localStorage.setItem(key, value)
 }
 
+const getToken = () => {
+  const authData = localStorage.getItem('auth')
+  if (authData) {
+    return JSON.parse(authData).accessToken
+  }
+  return null
+}
+
 export const createUser = async ({ fullName, phone, email, birthDate, password }) => {
   return await axios
     .post('usuario/create_usuario', {
@@ -90,15 +98,23 @@ export const createEvent = async ({
   image,
 }) => {
   return await axios
-    .post('evento/create_evento', {
-      titulo: title,
-      descricao: description,
-      localizacao: location,
-      inicio: startDate,
-      termino: endDate,
-      categoria: category,
-      imagem: image,
-    })
+    .post(
+      'evento/create_evento',
+      {
+        titulo: title,
+        descricao: description,
+        localizacao: location,
+        inicio: startDate,
+        termino: endDate,
+        categoria: category,
+        imagem: image,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${getToken()}`,
+        },
+      },
+    )
     .then(function (response) {
       return true
     })

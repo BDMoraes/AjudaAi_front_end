@@ -10,13 +10,13 @@
   - vai listar os participantes do evento se foi eu q criei
   - permite excluir evento
   - botão editar evento
-- tela de edição do evento
+- [done] tela de edição do evento
 - tela de edição do perfil
 
 # Ajustes:
 
-- n permitir acessar tela se n tá logado
-- salvar token no localStorage
+- [done] n permitir acessar tela se n tá logado
+- [done] salvar token no localStorage
 - botão sair tem q deslogar
 - botão home deve levar pra tela de eventos
 

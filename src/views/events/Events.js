@@ -23,7 +23,6 @@ const Events = () => {
 
   return (
     <>
-      {/* <WidgetsDropdown /> */}
       <CRow>
         {events.map((event, index) => (
           <CCol sm={4} key={event.titulo + index}>

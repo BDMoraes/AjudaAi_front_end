@@ -64,7 +64,7 @@ const App = () => {
             />
             <Route
               exact
-              path="/events"
+              path="/public-events"
               name="Eventos"
               render={(props) => <Register {...props} />}
             />
