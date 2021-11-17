@@ -36,9 +36,6 @@ const Events = () => {
                     <div className="small text-medium-emphasis">{`Localização: ${event.localizacao}`}</div>
                   </CCol>
                   <CCol sm={5} className="d-none d-md-block">
-                    <CButton color="primary" className="float-end">
-                      Participar
-                    </CButton>
                     <CButton
                       color="success"
                       className="float-end"
