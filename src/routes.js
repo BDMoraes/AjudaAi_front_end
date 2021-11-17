@@ -2,7 +2,7 @@ import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Events = React.lazy(() => import('./views/events/Events'))
-const Events_details = React.lazy(() => import('./views/events/Events_details'))
+const EventDetails = React.lazy(() => import('./views/events/EventDetails'))
 const User_events = React.lazy(() => import('./views/events/User_events'))
 const Edit_events = React.lazy(() => import('./views/events/Edit_events'))
 
@@ -59,7 +59,6 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/events', name: 'Eventos', component: Events },
-  { path: '/details', name: 'Detalhes do Evento', component: Events_details },
   { path: '/register-events', name: 'Cadastrar evento', component: Register_events },
   { path: '/edit-events', name: 'Editar evento', component: Edit_events },
   { path: '/edit-register', name: 'Editar cadastro', component: Edit_register },

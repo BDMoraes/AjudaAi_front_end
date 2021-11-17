@@ -1,29 +1,28 @@
 import React, { lazy, useEffect, useState } from 'react'
 
 import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
+import EventDetails from './EventDetails'
 
 import { findEvents } from 'src/services/services'
 
 const Events = () => {
+  const [selectedEvent, setSelectedEvent] = useState()
   const [events, setEvents] = useState([])
 
   useEffect(() => {
     const getEvents = async () => {
       const newestEvents = await findEvents()
-      setEvents([
-        ...newestEvents,
-        ...newestEvents,
-        ...newestEvents,
-        ...newestEvents,
-        ...newestEvents,
-      ])
+      setEvents(newestEvents)
     }
     getEvents()
   }, [])
 
-  return (
-    <>
-      {/* <WidgetsDropdown /> */}
+  const openEventDetail = (event) => {
+    setSelectedEvent(event)
+  }
+
+  const renderEventsGallery = () => {
+    return (
       <CRow>
         {events.map((event, index) => (
           <CCol sm={4} key={event.titulo + index}>
@@ -42,7 +41,11 @@ const Events = () => {
                     <CButton color="primary" className="float-end">
                       Participar
                     </CButton>
-                    <CButton color="success" className="float-end">
+                    <CButton
+                      color="success"
+                      className="float-end"
+                      onClick={() => openEventDetail(event)}
+                    >
                       Detalhar
                     </CButton>
                   </CCol>
@@ -62,8 +65,14 @@ const Events = () => {
           </CCol>
         ))}
       </CRow>
-    </>
-  )
+    )
+  }
+
+  const renderEventDetail = () => {
+    return <EventDetails event={selectedEvent} onBack={() => setSelectedEvent(undefined)} />
+  }
+
+  return <>{selectedEvent ? renderEventDetail() : renderEventsGallery()}</>
 }
 
 export default Events

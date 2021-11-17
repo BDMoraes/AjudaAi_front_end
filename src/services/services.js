@@ -116,9 +116,19 @@ export const createEvent = async ({
       },
     )
     .then(function (response) {
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Seu evento foi cadastrado com sucesso.',
+      })
       return true
     })
     .catch(function (error) {
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao cadastrar evento.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
       return false
     })
 }

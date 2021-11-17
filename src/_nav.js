@@ -230,11 +230,6 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Detalhes do evento',
-    to: '/details',
-  },
-  {
-    component: CNavItem,
     name: 'Editar cadastro',
     to: '/edit-register',
   },

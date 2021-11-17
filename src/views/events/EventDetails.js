@@ -1,35 +1,11 @@
-import React, { useState } from 'react'
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCol,
-  CRow,
-  CForm,
-  CFormInput,
-  CCardHeader,
-  CFormLabel,
-  CFormSelect,
-  CFormFeedback,
-  CInputGroupText,
-  CInputGroup,
-} from '@coreui/react'
+import React from 'react'
+import { CButton, CCard, CCardBody, CCol, CRow, CCardHeader } from '@coreui/react'
+import PropTypes from 'prop-types'
 
-const Detail_events = () => {
-  const event = {
-    pkcodevento: 1,
-    titulo: 'evento',
-    descricao:
-      'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.',
-    localizacao: 'Taquara',
-    datahora: '03/11/2021, 23:03',
-    inicio: '24/10/2021 20:50',
-    termin: '24/10/2021 20:55',
-    imagem:
-      'http://s2.glbimg.com/z_gIOSUdsxyNGClgVLYVBHBziyw=/0x0:400x400/400x400/s.glbimg.com/po/tt2/f/original/2016/05/20/new-google-favicon-logo.png',
-    categoria: 'TESTE2',
-    criador: 1,
-    ativo: true,
+const EventDetails = ({ event, onBack }) => {
+  if (!event) {
+    onBack()
+    return
   }
 
   return (
@@ -88,7 +64,7 @@ const Detail_events = () => {
             <CButton color="success">Voluntariar-se</CButton>
             <CButton color="warning">Editar</CButton>
             <CButton color="danger">Excluir evento</CButton>
-            <CButton>Voltar</CButton>
+            <CButton onClick={() => onBack()}>Voltar</CButton>
           </div>
         </CRow>
       </CCardBody>
@@ -96,4 +72,9 @@ const Detail_events = () => {
   )
 }
 
-export default Detail_events
+EventDetails.propTypes = {
+  event: PropTypes.object,
+  onBack: PropTypes.func,
+}
+
+export default EventDetails
