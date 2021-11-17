@@ -2,7 +2,7 @@
 
 ## Telas:
 
-- ver evento individual
+- [done] ver evento individual
 - ver eventos públicos (sem logar)
 - ver meus eventos
   - vai mostrar os eventos que eu criei

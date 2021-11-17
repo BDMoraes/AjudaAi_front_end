@@ -17,6 +17,7 @@ const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
 // Pages
 const Login = React.lazy(() => import('./views/pages/login/Login'))
 const Register = React.lazy(() => import('./views/pages/register/Register'))
+const PublicEvents = React.lazy(() => import('./views/pages/public-events/PublicEvents'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
@@ -66,7 +67,7 @@ const App = () => {
               exact
               path="/public-events"
               name="Eventos"
-              render={(props) => <Register {...props} />}
+              render={(props) => <PublicEvents {...props} />}
             />
             <Route
               exact

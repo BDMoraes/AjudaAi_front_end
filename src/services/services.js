@@ -1,5 +1,6 @@
 import React, { useRef } from 'react'
 import { CToaster } from '@coreui/react'
+import { cilAccountLogout } from '@coreui/icons'
 
 const axios = require('axios').default
 
@@ -35,7 +36,7 @@ export const login = async ({ username, password }) => {
 
 const setToken = (access_token) => {
   const date = new Date()
-  date.setHours(date.getHours() + 1)
+  date.setMinutes(date.getMinutes() + 30)
 
   const key = 'auth'
   const value = JSON.stringify({
@@ -49,9 +50,13 @@ const setToken = (access_token) => {
 const getToken = () => {
   const authData = localStorage.getItem('auth')
   if (authData) {
-    return JSON.parse(authData).accessToken
+    return `Bearer ${JSON.parse(authData).accessToken}`
   }
   return null
+}
+
+const logoutUser = () => {
+  localStorage.removeItem('auth')
 }
 
 export const createUser = async ({ fullName, phone, email, birthDate, password }) => {
@@ -79,11 +84,39 @@ export const createUser = async ({ fullName, phone, email, birthDate, password }
 
 export const findEvents = async () => {
   return await axios
+    .get('evento/get_eventos', {
+      headers: {
+        Authorization: getToken(),
+      },
+    })
+    .then(function (response) {
+      return response?.data?.consulta
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 401) {
+        logoutUser()
+        return false
+      }
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao buscar eventos.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+export const findPublicEvents = async () => {
+  return await axios
     .get('evento/get_eventos_publicos')
     .then(function (response) {
       return response?.data?.consulta
     })
     .catch(function (error) {
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao buscar eventos.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
       return false
     })
 }
@@ -111,7 +144,7 @@ export const createEvent = async ({
       },
       {
         headers: {
-          Authorization: `Bearer ${getToken()}`,
+          Authorization: getToken(),
         },
       },
     )
