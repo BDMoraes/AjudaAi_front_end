@@ -1,7 +1,3 @@
-import React, { useRef } from 'react'
-import { CToaster } from '@coreui/react'
-import { cilAccountLogout } from '@coreui/icons'
-
 const axios = require('axios').default
 
 axios.defaults.baseURL = 'https://appajudaai.herokuapp.com'

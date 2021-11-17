@@ -32,7 +32,7 @@ const Login = () => {
     if (isTokenValid) {
       history.push('/dashboard')
     }
-  }, [])
+  }, [history])
 
   async function logUser() {
     const result = await login(user)

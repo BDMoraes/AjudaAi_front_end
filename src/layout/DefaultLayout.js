@@ -1,6 +1,6 @@
 import React from 'react'
-import { AppContent, AppSidebar, AppFooter, AppHeader } from '../components/index'
 import { useHistory } from 'react-router-dom'
+import { AppContent, AppFooter, AppHeader, AppSidebar } from '../components/index'
 
 const DefaultLayout = () => {
   const history = useHistory()

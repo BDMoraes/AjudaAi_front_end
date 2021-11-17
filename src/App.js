@@ -1,9 +1,8 @@
 import { CToast, CToastBody, CToaster, CToastHeader } from '@coreui/react'
-import React, { Component, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
-import './scss/style.scss'
-
 import { toasterCallback } from 'src/services/services'
+import './scss/style.scss'
 
 const loading = (
   <div className="pt-3 text-center">

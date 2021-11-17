@@ -1,7 +1,5 @@
-import React, { lazy, useEffect, useState } from 'react'
-
 import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
-
+import React, { useEffect, useState } from 'react'
 import { findEvents } from 'src/services/services'
 
 const Events = () => {
@@ -42,7 +40,7 @@ const Events = () => {
                 </CRow>
                 <CRow>
                   <CCol md={{ span: 6, offset: 3 }}>
-                    <img style={{ 'max-height': '200px' }} src={event.imagem} />
+                    <img style={{ maxHeight: '200px' }} src={event.imagem} alt="event banner" />
                   </CCol>
                 </CRow>
                 <CRow>

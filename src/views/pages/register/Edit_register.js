@@ -1,23 +1,22 @@
-import React, { useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { cilCalendar, cilLockLocked, cilPhone, cilText } from '@coreui/icons'
+import CIcon from '@coreui/icons-react'
 import {
   CButton,
   CCard,
   CCardBody,
-  CContainer,
+  CCardHeader,
   CForm,
   CFormFeedback,
   CFormInput,
   CInputGroup,
   CInputGroupText,
-  CCardHeader,
-  CToastBody,
   CToast,
-  CToastHeader,
+  CToastBody,
   CToaster,
+  CToastHeader,
 } from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilCalendar, cilLockLocked, cilPhone, cilText } from '@coreui/icons'
+import React, { useRef, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { createUser } from 'src/services/services'
 
 const Edit_register = () => {

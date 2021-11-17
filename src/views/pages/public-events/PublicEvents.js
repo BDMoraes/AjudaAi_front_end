@@ -45,7 +45,7 @@ const PublicEvents = () => {
                 </CRow>
                 <CRow>
                   <CCol md={{ span: 6, offset: 3 }}>
-                    <img style={{ 'max-height': '200px' }} src={event.imagem} />
+                    <img style={{ maxHeight: '200px' }} src={event.imagem} alt="event banner" />
                   </CCol>
                 </CRow>
                 <CRow>

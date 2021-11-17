@@ -16,7 +16,7 @@ const EventDetails = ({ event, onBack }) => {
       <CCardBody>
         <CRow className="justify-content-center">
           <CCol md={{ span: 6, offset: 3 }}>
-            <img style={{ 'max-height': '300px' }} src={event.imagem} />
+            <img style={{ maxHeight: '300px' }} src={event.imagem} alt="event banner" />
           </CCol>
         </CRow>
         <CRow className="justify-content-start">
