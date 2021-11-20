@@ -19,6 +19,10 @@ const Events = () => {
     setSelectedEvent(event)
   }
 
+  if (!events || events.length < 1) {
+    return <div>Nenhum evento encontrado.</div>
+  }
+
   const renderEventsGallery = () => {
     return (
       <CRow>

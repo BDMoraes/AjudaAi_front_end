@@ -35,10 +35,13 @@ const setToken = (access_token) => {
   const date = new Date()
   date.setMinutes(date.getMinutes() + 30)
 
+  const userId = JSON.parse(atob(access_token.split('.')[1])).sub
+
   const key = 'auth'
   const value = JSON.stringify({
     accessToken: access_token,
     expireTimestamp: +date,
+    userId,
   })
 
   localStorage.setItem(key, value)
@@ -48,6 +51,14 @@ const getToken = () => {
   const authData = localStorage.getItem('auth')
   if (authData) {
     return `Bearer ${JSON.parse(authData).accessToken}`
+  }
+  return null
+}
+
+export const getUserId = () => {
+  const authData = localStorage.getItem('auth')
+  if (authData) {
+    return JSON.parse(authData).userId
   }
   return null
 }
@@ -67,6 +78,11 @@ export const createUser = async (data) => {
       datanascimento: data.birthDate,
     })
     .then(function (response) {
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Usuário cadastrado com sucesso.',
+      })
       return true
     })
     .catch(function (error) {
@@ -210,6 +226,64 @@ export const deleteEvent = async (pkcodevento) => {
       toasterCallbackFunction({
         color: 'red',
         title: 'Erro ao deletar evento.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
+export const updateUser = async (data) => {
+  return await axios
+    .post('usuario/update_usuario', {
+      pkcodusuario: getUserId(),
+      login: data.email,
+      senha: data.password,
+      nome: data.fullName,
+      telefone: data.phone,
+      email: data.email,
+      datanascimento: data.birthDate,
+    })
+    .then(function (response) {
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Usuário atualizado com sucesso.',
+      })
+      return true
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return updateUser(data)
+
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao atualizar usuário.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
+export const requestPasswordChange = async (data) => {
+  return await axios
+    .post('recuperar_senha', {
+      email: data.email,
+      datanascimento: data.birthdate,
+    })
+    .then(function (response) {
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Email enviado com sucesso.',
+      })
+
+      return true
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return requestPasswordChange(data)
+
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao enviar email de recuperação de senha.',
         body: 'Ocorreu um erro, tente novamente mais tarde.',
       })
       return false

@@ -10,21 +10,11 @@ import {
   CFormInput,
   CInputGroup,
   CInputGroupText,
-  CToast,
-  CToastBody,
-  CToaster,
-  CToastHeader,
 } from '@coreui/react'
-import React, { useRef, useState } from 'react'
-import { useHistory } from 'react-router-dom'
-import { createUser } from 'src/services/services'
+import React, { useState } from 'react'
+import { updateUser } from 'src/services/services'
 
 const Edit_register = () => {
-  const history = useHistory()
-  const [toast, addToast] = useState(0)
-
-  const toaster = useRef()
-
   const [form, setForm] = useState({
     fullName: '',
     phone: '',
@@ -37,60 +27,26 @@ const Edit_register = () => {
   const [repeateadPasswordCorrect, setRepeatedPasswordCorrect] = useState(true)
 
   const handleSubmit = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
     if (form.password !== form.repeatPassword) {
       setRepeatedPasswordCorrect(false)
       return
     }
 
     const validationForm = event.currentTarget
-    if (validationForm.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
     setValidated(true)
     if (validationForm.checkValidity() === false) {
       return
     }
-    registerUser()
+    handleUserUpdate()
   }
 
-  const registerUser = async () => {
-    try {
-      const formattedForm = Object.assign({}, form)
-      const birthDateParts = formattedForm.birthdate.split('-')
-      formattedForm.birthDate = `${birthDateParts[2]}/${birthDateParts[1]}/${birthDateParts[0]}`
-      const response = await createUser(formattedForm)
-      if (!response) {
-        history.push('/login')
-      } else {
-        showWarning('Ocorreu um erro, tente novamente mais tarde.')
-      }
-    } catch (error) {
-      showWarning('Ocorreu um erro, tente novamente mais tarde.')
-      console.log('Something happened loggin in.', error)
-    }
-  }
-
-  function showWarning(message) {
-    addToast(
-      <CToast title="Ops!">
-        <CToastHeader close>
-          <svg
-            className="rounded me-2"
-            width="20"
-            height="20"
-            xmlns="http://www.w3.org/2000/svg"
-            preserveAspectRatio="xMidYMid slice"
-            focusable="false"
-            role="img"
-          >
-            <rect width="100%" height="100%" fill="red"></rect>
-          </svg>
-          <strong className="me-auto">{'Ops!'}</strong>
-        </CToastHeader>
-        <CToastBody>{message}</CToastBody>
-      </CToast>,
-    )
+  const handleUserUpdate = async () => {
+    const formattedForm = Object.assign({}, form)
+    const birthDateParts = formattedForm.birthdate.split('-')
+    formattedForm.birthDate = `${birthDateParts[2]}/${birthDateParts[1]}/${birthDateParts[0]}`
+    updateUser(formattedForm)
   }
 
   const handleInputChange = (name, value) => {
@@ -104,7 +60,6 @@ const Edit_register = () => {
 
   return (
     <>
-      <CToaster ref={toaster} push={toast} placement="top-end" />
       <CCard className="mb-4">
         <CCardHeader>
           <h1>Edição de cadastro</h1>
@@ -156,7 +111,7 @@ const Edit_register = () => {
                 <CIcon icon={cilCalendar} />
               </CInputGroupText>
               <CFormInput
-                type={'date'}
+                type="date"
                 required
                 placeholder="Data de nascimento"
                 autoComplete="birthdate"
@@ -197,7 +152,6 @@ const Edit_register = () => {
               <CButton color="primary" className="col-sm-12" type={'submit'}>
                 Salvar
               </CButton>
-              <CButton color="danger">Voltar</CButton>
             </div>
           </CForm>
         </CCardBody>

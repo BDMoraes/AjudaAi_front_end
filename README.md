@@ -6,27 +6,23 @@
 - [done] botão editar evento
 - [done] ver evento individual
 - [done] ver eventos públicos (sem logar)
-- Eventos disponíveis
+- Eventos disponíveis -> events.js -> //get_eventos
   -listar, detalhar, voluntariar-se
   //eventousuario/create_evento_usuario
-
-- Eventos que criei
-  -listar, detalhar, editar, excluir
-  voluntário: false
+- Eventos que criei //get eventos usuario - listar, detalhar, editar, excluir - vai listar os participantes do evento (q eu criei)
 - Eventos que participo ///get_eventos_usuario_participacao
   -listar, detalhar, remover participação
 - recuperação de senha
-  - vai listar os participantes do evento se foi eu q criei
 - [done] tela de edição do evento
-- tela de edição do perfil
+- [done] tela de edição do perfil
 
 # Ajustes:
 
 - [done] n permitir acessar tela se n tá logado
 - [done] salvar token no localStorage
 - [done] botão sair tem q deslogar
-- botão home deve levar pra tela de eventos
-- tirar comportamento padrão do submit de cadastro de usuário
+- [done] botão home deve levar pra tela de eventos
+- [done] tirar comportamento padrão do submit de cadastro de usuário
 
 fazer relatório
 

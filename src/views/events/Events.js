@@ -1,9 +1,10 @@
 import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
-import { findEvents } from 'src/services/services'
+import { findEvents, getUserId } from 'src/services/services'
 
 const Events = () => {
   const [events, setEvents] = useState([])
+  const [userId, setUserId] = useState([-1])
 
   useEffect(() => {
     const getEvents = async () => {
@@ -12,6 +13,14 @@ const Events = () => {
     }
     getEvents()
   }, [])
+
+  useEffect(() => {
+    setUserId(getUserId())
+  }, [])
+
+  if (!events || events.length < 1) {
+    return <div>Nenhum evento encontrado.</div>
+  }
 
   return (
     <>
@@ -30,9 +39,11 @@ const Events = () => {
                     <div className="small text-medium-emphasis">{`Localização: ${event.localizacao}`}</div>
                   </CCol>
                   <CCol sm={5} className="d-none d-md-block">
-                    <CButton color="primary" className="float-end">
-                      Participar
-                    </CButton>
+                    {event.criador !== userId && (
+                      <CButton color="primary" className="float-end">
+                        Participar
+                      </CButton>
+                    )}
                     <CButton color="success" className="float-end">
                       Detalhar
                     </CButton>

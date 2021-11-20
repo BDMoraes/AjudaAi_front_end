@@ -18,6 +18,10 @@ const AppSidebar = () => {
     history.push('/login')
   }
 
+  const sendUserToHome = () => {
+    history.push('/')
+  }
+
   return (
     <CSidebar
       position="fixed"
@@ -27,7 +31,12 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      <CSidebarBrand className="d-none d-md-flex" to="/">
+      <CSidebarBrand
+        className="d-none d-md-flex"
+        to="/"
+        onClick={() => sendUserToHome()}
+        style={{ cursor: 'pointer' }}
+      >
         {'Ajuda aí!'}
         {/* <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} />
         <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} /> */}

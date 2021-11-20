@@ -28,13 +28,14 @@ const Register_events = () => {
 
   const [validated, setValidated] = useState(false)
 
-  const handleSubmit = (event) => {
-    const currentForm = event.currentTarget
-    if (currentForm.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
+  const handleSubmit = (formEvent) => {
+    formEvent.preventDefault()
+    formEvent.stopPropagation()
+    const validationForm = formEvent.currentTarget
     setValidated(true)
+    if (validationForm.checkValidity() === false) {
+      return
+    }
     postNewEvent()
   }
 
