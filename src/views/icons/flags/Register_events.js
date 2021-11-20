@@ -141,7 +141,7 @@ const Register_events = () => {
           <CCol md={6}>
             <CFormLabel htmlFor="inputDataInicio">Data e horário de início:</CFormLabel>
             <CFormInput
-              type="text"
+              type="date"
               id="inputDataInicio"
               placeholder="24/10/2021 20:50"
               required
@@ -154,7 +154,7 @@ const Register_events = () => {
           <CCol md={6}>
             <CFormLabel htmlFor="inputDataTermino">Data e horário de término:</CFormLabel>
             <CFormInput
-              type="text"
+              type="date"
               id="inputDataTermino"
               placeholder="25/10/2021 20:50"
               required

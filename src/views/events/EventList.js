@@ -2,10 +2,12 @@ import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
 import { findEvents } from 'src/services/services'
 import EventDetails from './EventDetails'
+import EventEdit from './EventEdit'
 
-const Events = () => {
+const EventList = () => {
   const [selectedEvent, setSelectedEvent] = useState()
   const [events, setEvents] = useState([])
+  const [page, setPage] = useState('gallery')
 
   useEffect(() => {
     const getEvents = async () => {
@@ -17,6 +19,40 @@ const Events = () => {
 
   const openEventDetail = (event) => {
     setSelectedEvent(event)
+    setPage('detail')
+  }
+
+  const renderEventDetail = () => {
+    return (
+      <EventDetails
+        event={selectedEvent}
+        onEdit={() => {
+          setPage('edit')
+        }}
+        onBack={() => {
+          setSelectedEvent(undefined)
+          setPage('gallery')
+        }}
+      />
+    )
+  }
+
+  const renderEventEdit = () => {
+    return (
+      <EventEdit
+        event={selectedEvent}
+        onBack={() => {
+          setPage('detail')
+        }}
+      />
+    )
+  }
+
+  const renderPage = () => {
+    if (!events) return <div>Nenhum evento a ser listado</div>
+    if (page === 'gallery') return renderEventsGallery()
+    if (page === 'detail') return renderEventDetail()
+    if (page === 'edit') return renderEventEdit()
   }
 
   const renderEventsGallery = () => {
@@ -63,11 +99,7 @@ const Events = () => {
     )
   }
 
-  const renderEventDetail = () => {
-    return <EventDetails event={selectedEvent} onBack={() => setSelectedEvent(undefined)} />
-  }
-
-  return <>{selectedEvent ? renderEventDetail() : renderEventsGallery()}</>
+  return <>{renderPage()}</>
 }
 
-export default Events
+export default EventList

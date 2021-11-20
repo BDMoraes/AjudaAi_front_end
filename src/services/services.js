@@ -10,9 +10,9 @@ export const toasterCallback = (callback) => {
   toasterCallbackFunction = callback
 }
 
-export const login = async ({ username, password }) => {
+export const login = async (data) => {
   return await axios
-    .post('/login', { login: username, senha: password })
+    .post('/login', { login: data.username, senha: data.password })
     .then(function (response) {
       if (response?.data?.token) {
         setToken(response.data.token)
@@ -21,6 +21,7 @@ export const login = async ({ username, password }) => {
       return false
     })
     .catch(function (error) {
+      if (error?.response?.status === 422) return login(data)
       toasterCallbackFunction({
         color: 'red',
         title: 'Erro ao realizar login.',
@@ -55,20 +56,22 @@ const logoutUser = () => {
   localStorage.removeItem('auth')
 }
 
-export const createUser = async ({ fullName, phone, email, birthDate, password }) => {
+export const createUser = async (data) => {
   return await axios
     .post('usuario/create_usuario', {
-      login: email,
-      senha: password,
-      nome: fullName,
-      telefone: phone,
-      email: email,
-      datanascimento: birthDate,
+      login: data.email,
+      senha: data.password,
+      nome: data.fullName,
+      telefone: data.phone,
+      email: data.email,
+      datanascimento: data.birthDate,
     })
     .then(function (response) {
       return true
     })
     .catch(function (error) {
+      if (error?.response?.status === 422) return createUser(data)
+
       toasterCallbackFunction({
         color: 'red',
         title: 'Erro ao cadastrar usuário.',
@@ -89,6 +92,7 @@ export const findEvents = async () => {
       return response?.data?.consulta
     })
     .catch(function (error) {
+      if (error?.response?.status === 422) return findEvents()
       if (error?.response?.status === 401) {
         logoutUser()
         return false
@@ -108,6 +112,7 @@ export const findPublicEvents = async () => {
       return response?.data?.consulta
     })
     .catch(function (error) {
+      if (error?.response?.status === 422) return findPublicEvents()
       toasterCallbackFunction({
         color: 'red',
         title: 'Erro ao buscar eventos.',
@@ -117,26 +122,18 @@ export const findPublicEvents = async () => {
     })
 }
 
-export const createEvent = async ({
-  title,
-  description,
-  location,
-  category,
-  startDate,
-  endDate,
-  image,
-}) => {
+export const createEvent = async (data) => {
   return await axios
     .post(
       'evento/create_evento',
       {
-        titulo: title,
-        descricao: description,
-        localizacao: location,
-        inicio: startDate,
-        termino: endDate,
-        categoria: category,
-        imagem: image,
+        titulo: data.title,
+        descricao: data.description,
+        localizacao: data.location,
+        inicio: data.startDate,
+        termino: data.endDate,
+        categoria: data.category,
+        imagem: data.image,
       },
       {
         headers: {
@@ -153,6 +150,33 @@ export const createEvent = async ({
       return true
     })
     .catch(function (error) {
+      if (error?.response?.status === 422) return createEvent(data)
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao cadastrar evento.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
+export const updateEvent = async (data) => {
+  return await axios
+    .post('evento/update_evento', data, {
+      headers: {
+        Authorization: getToken(),
+      },
+    })
+    .then(function (response) {
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Seu evento foi cadastrado com sucesso.',
+      })
+      return true
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return updateEvent(data)
       toasterCallbackFunction({
         color: 'red',
         title: 'Erro ao cadastrar evento.',

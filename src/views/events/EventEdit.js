@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CButton,
   CCard,
@@ -12,29 +12,36 @@ import {
   CFormFeedback,
   CInputGroupText,
   CInputGroup,
+  CRow,
 } from '@coreui/react'
-import { createEvent } from 'src/services/services'
+import { updateEvent } from 'src/services/services'
+import PropTypes from 'prop-types'
 
-const Register_events = () => {
+const EventEdit = ({ event, onBack }) => {
+  useEffect(() => {
+    setForm(event)
+  }, [event])
+
   const [form, setForm] = useState({
-    title: '',
-    description: '',
-    location: '',
-    category: 'MAO_DE_OBRA',
-    startDate: '',
-    endDate: '',
-    image: '',
+    titulo: '',
+    descricao: '',
+    localizacao: '',
+    inicio: '',
+    termino: '',
+    categoria: 'MAO_DE_OBRA',
+    imagem: '',
   })
 
   const [validated, setValidated] = useState(false)
 
-  const handleSubmit = (event) => {
-    const currentForm = event.currentTarget
-    if (currentForm.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
+  const handleSubmit = (formEvent) => {
+    formEvent.preventDefault()
+    formEvent.stopPropagation()
+    const validationForm = formEvent.currentTarget
     setValidated(true)
+    if (validationForm.checkValidity() === false) {
+      return
+    }
     postNewEvent()
   }
 
@@ -51,7 +58,7 @@ const Register_events = () => {
 
     setForm((actualForm) => ({
       ...actualForm,
-      image: base64Image,
+      imagem: base64Image,
     }))
   }
 
@@ -68,8 +75,10 @@ const Register_events = () => {
     })
   }
 
-  const postNewEvent = () => {
-    createEvent(form)
+  const postNewEvent = async () => {
+    const updatedEvent = Object.assign({}, event, form)
+    const result = await updateEvent(updatedEvent)
+    if (result) onBack()
   }
 
   return (
@@ -91,8 +100,8 @@ const Register_events = () => {
               id="inputTitulo"
               placeholder="Ex: Campanha de arrecadação de roupas dos guris"
               required
-              value={form.title}
-              onChange={(event) => handleChange('title', event.target.value)}
+              value={form.titulo}
+              onChange={(event) => handleChange('titulo', event.target.value)}
             />
             <CFormFeedback invalid>Insira um nome para o evento.</CFormFeedback>
             <CFormFeedback valid>Título válido</CFormFeedback>
@@ -104,8 +113,8 @@ const Register_events = () => {
               id="inputDescricao"
               placeholder="Ex: Este evento destina-se à arrecadação de..."
               required
-              value={form.description}
-              onChange={(event) => handleChange('description', event.target.value)}
+              value={form.descricao}
+              onChange={(event) => handleChange('descricao', event.target.value)}
             />
             <CFormFeedback invalid>Insira uma descrição válida.</CFormFeedback>
             <CFormFeedback valid>Descrição válida</CFormFeedback>
@@ -117,8 +126,8 @@ const Register_events = () => {
               id="inputLocalizacao"
               placeholder="Ex: Sapucaia do Sul"
               required
-              value={form.location}
-              onChange={(event) => handleChange('location', event.target.value)}
+              value={form.localizacao}
+              onChange={(event) => handleChange('localizacao', event.target.value)}
             />
             <CFormFeedback invalid>Insira uma localização válida.</CFormFeedback>
             <CFormFeedback valid>Localização válida</CFormFeedback>
@@ -128,8 +137,8 @@ const Register_events = () => {
             <CFormSelect
               id="selectCategoria"
               required
-              value={form.category}
-              onChange={(event) => handleChange('category', event.target.value)}
+              value={form.categoria}
+              onChange={(event) => handleChange('categoria', event.target.value)}
             >
               <option value="MAO_DE_OBRA">Mão de obra</option>
               <option value="AJUDA_FINANCEIRA">Ajuda financeira</option>
@@ -141,12 +150,12 @@ const Register_events = () => {
           <CCol md={6}>
             <CFormLabel htmlFor="inputDataInicio">Data e horário de início:</CFormLabel>
             <CFormInput
-              type="text"
+              type="date"
               id="inputDataInicio"
               placeholder="24/10/2021 20:50"
               required
-              value={form.startDate}
-              onChange={(event) => handleChange('startDate', event.target.value)}
+              value={form.inicio}
+              onChange={(event) => handleChange('inicio', event.target.value)}
             />
             <CFormFeedback invalid>Insira uma data válida.</CFormFeedback>
             <CFormFeedback valid>Data válida</CFormFeedback>
@@ -154,12 +163,12 @@ const Register_events = () => {
           <CCol md={6}>
             <CFormLabel htmlFor="inputDataTermino">Data e horário de término:</CFormLabel>
             <CFormInput
-              type="text"
+              type="date"
               id="inputDataTermino"
               placeholder="25/10/2021 20:50"
               required
-              value={form.endDate}
-              onChange={(event) => handleChange('endDate', event.target.value)}
+              value={form.termino}
+              onChange={(event) => handleChange('termino', event.target.value)}
             />
             <CFormFeedback invalid>Insira uma data válida.</CFormFeedback>
             <CFormFeedback valid>Data válida</CFormFeedback>
@@ -168,20 +177,29 @@ const Register_events = () => {
             <CFormLabel htmlFor="inputDataInicio">Imagem do evento:</CFormLabel>
             <CInputGroup
               className="mb-3"
-              value={form.image}
+              value={form.imagem}
               onChange={(event) => handleImageChange(event)}
             >
               <CInputGroupText component="label" htmlFor="inputGroupFile01">
                 Upload
               </CInputGroupText>
-              <CFormInput type="file" id="inputGroupFile01" required />
+              <CFormInput type="file" id="inputGroupFile01" />
             </CInputGroup>
+
+            <CFormLabel htmlFor="inputDataInicio">Imagem atual:</CFormLabel>
+            <CRow className="justify-content-center">
+              <CCol md={{ span: 6, offset: 3 }}>
+                <img style={{ maxHeight: '300px' }} src={event.imagem} alt="event banner" />
+              </CCol>
+            </CRow>
           </CCol>
           <div className="d-grid gap-2">
             <CButton color="primary" type="submit">
               Salvar
             </CButton>
-            <CButton color="danger">Voltar</CButton>
+            <CButton color="danger" onClick={() => onBack()}>
+              Voltar
+            </CButton>
           </div>
         </CForm>
       </CCardBody>
@@ -189,4 +207,9 @@ const Register_events = () => {
   )
 }
 
-export default Register_events
+EventEdit.propTypes = {
+  event: PropTypes.object,
+  onBack: PropTypes.func,
+}
+
+export default EventEdit

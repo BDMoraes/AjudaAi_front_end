@@ -2,7 +2,7 @@ import React from 'react'
 import { CButton, CCard, CCardBody, CCol, CRow, CCardHeader } from '@coreui/react'
 import PropTypes from 'prop-types'
 
-const EventDetails = ({ event, onBack }) => {
+const EventDetails = ({ event, onBack, onEdit }) => {
   if (!event) {
     onBack()
     return
@@ -62,7 +62,9 @@ const EventDetails = ({ event, onBack }) => {
         <CRow className="justify-content-center">
           <div className="d-grid gap-2">
             <CButton color="success">Voluntariar-se</CButton>
-            <CButton color="warning">Editar</CButton>
+            <CButton color="warning" onClick={() => onEdit()}>
+              Editar
+            </CButton>
             <CButton color="danger">Excluir evento</CButton>
             <CButton onClick={() => onBack()}>Voltar</CButton>
           </div>
@@ -75,6 +77,7 @@ const EventDetails = ({ event, onBack }) => {
 EventDetails.propTypes = {
   event: PropTypes.object,
   onBack: PropTypes.func,
+  onEdit: PropTypes.func,
 }
 
 export default EventDetails

@@ -32,16 +32,14 @@ const Register = () => {
   const [repeateadPasswordCorrect, setRepeatedPasswordCorrect] = useState(true)
 
   const handleSubmit = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
     if (form.password !== form.repeatPassword) {
       setRepeatedPasswordCorrect(false)
       return
     }
 
     const validationForm = event.currentTarget
-    if (validationForm.checkValidity() === false) {
-      event.preventDefault()
-      event.stopPropagation()
-    }
     setValidated(true)
     if (validationForm.checkValidity() === false) {
       return
