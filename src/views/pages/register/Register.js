@@ -27,6 +27,7 @@ const Register = () => {
     birthdate: '',
     password: '',
     repeatPassword: '',
+    username: '',
   })
   const [validated, setValidated] = useState(false)
   const [repeateadPasswordCorrect, setRepeatedPasswordCorrect] = useState(true)
@@ -76,6 +77,20 @@ const Register = () => {
                 <CForm className="needs-validation" validated={validated} onSubmit={handleSubmit}>
                   <h1>Cadastro</h1>
                   <p className="text-medium-emphasis">Crie sua conta</p>
+                  <CInputGroup className="mb-3">
+                    <CInputGroupText>
+                      <CIcon icon={cilText} />
+                    </CInputGroupText>
+                    <CFormInput
+                      required
+                      minLength={5}
+                      type="text"
+                      autoComplete="name"
+                      placeholder="Usuário"
+                      value={form.username}
+                      onChange={(event) => handleInputChange('username', event.target.value)}
+                    />
+                  </CInputGroup>
                   <CInputGroup className="mb-3">
                     <CInputGroupText>
                       <CIcon icon={cilText} />

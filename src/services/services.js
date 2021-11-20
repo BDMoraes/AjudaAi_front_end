@@ -70,7 +70,7 @@ const logoutUser = () => {
 export const createUser = async (data) => {
   return await axios
     .post('usuario/create_usuario', {
-      login: data.email,
+      login: data.username,
       senha: data.password,
       nome: data.fullName,
       telefone: data.phone,
