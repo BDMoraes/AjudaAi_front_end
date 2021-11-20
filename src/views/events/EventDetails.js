@@ -1,11 +1,17 @@
 import React from 'react'
 import { CButton, CCard, CCardBody, CCol, CRow, CCardHeader } from '@coreui/react'
 import PropTypes from 'prop-types'
+import { deleteEvent } from 'src/services/services'
 
-const EventDetails = ({ event, onBack, onEdit }) => {
+const EventDetails = ({ event, onBack, onEdit, onDeleteEvent }) => {
   if (!event) {
     onBack()
     return
+  }
+
+  const handleDeleteEvent = async () => {
+    const result = await deleteEvent(event.pkcodevento)
+    if (result) onDeleteEvent()
   }
 
   return (
@@ -65,7 +71,9 @@ const EventDetails = ({ event, onBack, onEdit }) => {
             <CButton color="warning" onClick={() => onEdit()}>
               Editar
             </CButton>
-            <CButton color="danger">Excluir evento</CButton>
+            <CButton color="danger" onClick={() => handleDeleteEvent()}>
+              Excluir evento
+            </CButton>
             <CButton onClick={() => onBack()}>Voltar</CButton>
           </div>
         </CRow>
@@ -78,6 +86,7 @@ EventDetails.propTypes = {
   event: PropTypes.object,
   onBack: PropTypes.func,
   onEdit: PropTypes.func,
+  onDeleteEvent: PropTypes.func,
 }
 
 export default EventDetails

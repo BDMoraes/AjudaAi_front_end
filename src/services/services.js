@@ -185,3 +185,33 @@ export const updateEvent = async (data) => {
       return false
     })
 }
+
+export const deleteEvent = async (pkcodevento) => {
+  return await axios
+    .post(
+      'evento/delete_evento',
+      { pkcodevento },
+      {
+        headers: {
+          Authorization: getToken(),
+        },
+      },
+    )
+    .then(function (response) {
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Evento deletado com sucesso.',
+      })
+      return true
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return deleteEvent(pkcodevento)
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao deletar evento.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}

@@ -2,8 +2,8 @@
 
 ## Telas:
 
-- permite excluir evento
-- botão editar evento
+- [done] permite excluir evento
+- [done] botão editar evento
 - [done] ver evento individual
 - [done] ver eventos públicos (sem logar)
 - Eventos disponíveis

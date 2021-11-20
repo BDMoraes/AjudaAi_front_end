@@ -10,12 +10,13 @@ const EventList = () => {
   const [page, setPage] = useState('gallery')
 
   useEffect(() => {
-    const getEvents = async () => {
-      const newestEvents = await findEvents()
-      setEvents(newestEvents)
-    }
     getEvents()
   }, [])
+
+  const getEvents = async () => {
+    const newestEvents = await findEvents()
+    setEvents(newestEvents)
+  }
 
   const openEventDetail = (event) => {
     setSelectedEvent(event)
@@ -32,6 +33,11 @@ const EventList = () => {
         onBack={() => {
           setSelectedEvent(undefined)
           setPage('gallery')
+        }}
+        onDeleteEvent={() => {
+          setSelectedEvent(undefined)
+          setPage('gallery')
+          getEvents()
         }}
       />
     )
