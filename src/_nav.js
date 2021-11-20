@@ -209,8 +209,13 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Meus eventos',
+    name: 'Meus eventos criados',
     to: '/user-events',
+  },
+  {
+    component: CNavItem,
+    name: 'Meus eventos participando',
+    to: '/user-events-particip',
   },
   {
     component: CNavItem,
