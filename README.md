@@ -6,13 +6,21 @@
 - [done] botão editar evento
 - [done] ver evento individual
 - [done] ver eventos públicos (sem logar)
-- Eventos disponíveis -> events.js -> //get_eventos
-  -listar, detalhar, voluntariar-se
-  //eventousuario/create_evento_usuario
-- Eventos que criei //get eventos usuario - listar, detalhar, editar, excluir - vai listar os participantes do evento (q eu criei)
+- Eventos disponíveis
+  - [done] listar
+  - detalhar
+  - voluntariar-se //eventousuario/create_evento_usuario
+- Eventos que criei //get eventos usuario
+  - [done] listar
+  - [done] detalhar
+  - [done] editar
+  - [done] excluir
+  - listar os participantes do evento (q eu criei)
 - Eventos que participo ///get_eventos_usuario_participacao
-  -listar, detalhar, remover participação
-- recuperação de senha
+  - listar
+  - detalhar
+  - desvoluntariar-se
+- [done] recuperação de senha
 - [done] tela de edição do evento
 - [done] tela de edição do perfil
 
