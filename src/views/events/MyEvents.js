@@ -12,19 +12,11 @@ const MyEvents = () => {
   }, [])
 
   const getEvents = async () => {
-    //const newestEvents = await findCreatedEvents()
-    const newestEvents = await findEvents()
+    const newestEvents = await findCreatedEvents()
     setEvents(newestEvents)
   }
 
-  return (
-    <EventList
-      canEdit={true}
-      canVolunteer={false}
-      events={events}
-      refreshEvents={() => getEvents()}
-    />
-  )
+  return <EventList canEdit={true} events={events} refreshEvents={() => getEvents()} />
 }
 
 export default MyEvents

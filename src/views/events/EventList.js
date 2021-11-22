@@ -1,11 +1,10 @@
 import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
-import React, { useEffect, useState } from 'react'
-import { findCreatedEvents } from 'src/services/services'
+import React, { useState } from 'react'
 import EventDetails from './EventDetails'
 import EventEdit from './EventEdit'
 import PropTypes from 'prop-types'
 
-const EventList = ({ events, canEdit, canVolunteer, refreshEvents }) => {
+const EventList = ({ events, canEdit, refreshEvents }) => {
   const [selectedEvent, setSelectedEvent] = useState()
   const [page, setPage] = useState('gallery')
 
@@ -14,35 +13,44 @@ const EventList = ({ events, canEdit, canVolunteer, refreshEvents }) => {
     setPage('detail')
   }
 
+  const handleOnEdit = () => {
+    setPage('edit')
+  }
+
+  const handleOnDelete = () => {
+    setSelectedEvent(undefined)
+    setPage('gallery')
+    refreshEvents()
+  }
+
+  const handleOnBack = () => {
+    setSelectedEvent(undefined)
+    setPage('gallery')
+  }
+
+  const handleOnVolunteer = () => {
+    refreshEvents()
+  }
+
+  const handleOnEditted = () => {
+    refreshEvents()
+    setPage('detail')
+  }
+
   const renderEventDetail = () => {
     return (
       <EventDetails
         event={selectedEvent}
-        onEdit={() => {
-          setPage('edit')
-        }}
-        onBack={() => {
-          setSelectedEvent(undefined)
-          setPage('gallery')
-        }}
-        onDeleteEvent={() => {
-          setSelectedEvent(undefined)
-          setPage('gallery')
-          refreshEvents()
-        }}
+        onEdit={canEdit ? () => handleOnEdit() : undefined}
+        onBack={() => handleOnBack()}
+        onDeleteEvent={canEdit ? () => handleOnDelete() : undefined}
+        onVolunteer={!canEdit ? () => handleOnVolunteer() : undefined}
       />
     )
   }
 
   const renderEventEdit = () => {
-    return (
-      <EventEdit
-        event={selectedEvent}
-        onBack={() => {
-          setPage('detail')
-        }}
-      />
-    )
+    return <EventEdit event={selectedEvent} onBack={() => handleOnEditted()} />
   }
 
   const renderPage = () => {
@@ -100,15 +108,12 @@ const EventList = ({ events, canEdit, canVolunteer, refreshEvents }) => {
     return <div>Nenhum evento encontrado.</div>
   }
 
-  console.log(events)
-
   return <>{renderPage()}</>
 }
 
 EventList.propTypes = {
   events: PropTypes.array,
   canEdit: PropTypes.func,
-  canVolunteer: PropTypes.func,
   refreshEvents: PropTypes.func,
 }
 

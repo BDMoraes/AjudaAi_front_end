@@ -1,12 +1,12 @@
 import React from 'react'
 import { CButton, CCard, CCardBody, CCol, CRow, CCardHeader } from '@coreui/react'
 import PropTypes from 'prop-types'
-import { deleteEvent } from 'src/services/services'
+import { deleteEvent, getUserId, volunteerOnEvent } from 'src/services/services'
 
-const EventDetails = ({ event, onBack, onEdit, onDeleteEvent }) => {
+const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer }) => {
   if (!event) {
     onBack()
-    return
+    return <div />
   }
 
   const handleDeleteEvent = async () => {
@@ -14,10 +14,15 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent }) => {
     if (result) onDeleteEvent()
   }
 
-  event.voluntarios = [
-    { nome: 'Bruno Moraes', telefone: '51 981926100' },
-    { nome: 'Tales da Silva', telefone: '51 981926177' },
-  ]
+  const handleVolunteerOnEvent = async () => {
+    const result = await volunteerOnEvent(event.pkcodevento)
+    if (result) onVolunteer()
+  }
+
+  const userId = getUserId()
+  const canEdit = !!onEdit
+  const isVolunteer = !!!event?.participa === 'false'
+  const canVolunteer = !canEdit && event?.criador !== userId && !isVolunteer
 
   return (
     <CCard className="mb-4">
@@ -70,32 +75,50 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent }) => {
             <h4>{event.categoria}</h4>
           </CCol>
         </CRow>
-        <CRow className="justify-content-start">
-          <CCol xs={4}>
-            <h3> Inscritos no evento: </h3>
-          </CCol>
-          {event.voluntarios &&
-            event.voluntarios.map((event, index) => (
-              <>
-                <CCol key={event.voluntarios + index}></CCol>
-                <CCol xs={6}>
-                  <CRow className="justify-content-start">{event?.voluntarios?.nome ?? ''}</CRow>
-                  <CRow className="justify-content-start">
-                    {event?.voluntarios?.telefone ?? ''}
-                  </CRow>
-                </CCol>
-              </>
-            ))}
-        </CRow>
+
+        {canEdit ? (
+          <CRow className="justify-content-start">
+            <CCol xs={4}>
+              <h3> Inscritos no evento: </h3>
+            </CCol>
+            {event.voluntarios &&
+              event.voluntarios.map((event, index) => (
+                <>
+                  <CCol key={event.voluntarios + index}></CCol>
+                  <CCol xs={6}>
+                    <CRow className="justify-content-start">{event?.voluntarios?.nome ?? ''}</CRow>
+                    <CRow className="justify-content-start">
+                      {event?.voluntarios?.telefone ?? ''}
+                    </CRow>
+                  </CCol>
+                </>
+              ))}
+          </CRow>
+        ) : undefined}
+        {!canEdit && (
+          <CRow className="justify-content-start">
+            <CCol xs={12}>
+              <h3> Inscritos no evento: {event?.voluntarios?.length ?? 0}</h3>
+            </CCol>
+          </CRow>
+        )}
         <CRow className="justify-content-center">
           <div className="d-grid gap-2">
-            <CButton color="success">Voluntariar-se</CButton>
-            <CButton color="warning" onClick={() => onEdit()}>
-              Editar
-            </CButton>
-            <CButton color="danger" onClick={() => handleDeleteEvent()}>
-              Excluir evento
-            </CButton>
+            {canVolunteer && (
+              <CButton color="success" onClick={() => handleVolunteerOnEvent()}>
+                Voluntariar-se
+              </CButton>
+            )}
+            {canEdit && (
+              <>
+                <CButton color="warning" onClick={() => onEdit()}>
+                  Editar
+                </CButton>
+                <CButton color="danger" onClick={() => handleDeleteEvent()}>
+                  Excluir evento
+                </CButton>
+              </>
+            )}
             <CButton onClick={() => onBack()}>Voltar</CButton>
           </div>
         </CRow>
@@ -109,6 +132,7 @@ EventDetails.propTypes = {
   onBack: PropTypes.func,
   onEdit: PropTypes.func,
   onDeleteEvent: PropTypes.func,
+  onVolunteer: PropTypes.func,
 }
 
 export default EventDetails

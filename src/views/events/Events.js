@@ -1,71 +1,22 @@
-import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
-import { findEvents, getUserId } from 'src/services/services'
+import { findCreatedEvents, getUserId } from 'src/services/services'
+import EventList from './EventList'
 
-const Events = () => {
+const MyEvents = () => {
   const [events, setEvents] = useState([])
   const [userId, setUserId] = useState([-1])
 
   useEffect(() => {
-    const getEvents = async () => {
-      const newestEvents = await findEvents()
-      setEvents(newestEvents)
-    }
     getEvents()
-  }, [])
-
-  useEffect(() => {
     setUserId(getUserId())
   }, [])
 
-  if (!events || events.length < 1) {
-    return <div>Nenhum evento encontrado.</div>
+  const getEvents = async () => {
+    const newestEvents = await findCreatedEvents()
+    setEvents(newestEvents)
   }
 
-  return (
-    <>
-      <CRow>
-        {events.map((event, index) => (
-          <CCol sm={4} key={event.titulo + index}>
-            <CCard className="sm-6 lg-3 mb-4">
-              <CCardBody>
-                <CRow>
-                  <CCol sm={7}>
-                    <h4 id="traffic" className="card-title mb-0">
-                      {event.titulo}
-                    </h4>
-                    <div className="small text-medium-emphasis">{`De: ${event.inicio}`}</div>
-                    <div className="small text-medium-emphasis">{`Até: ${event.termino}`}</div>
-                    <div className="small text-medium-emphasis">{`Localização: ${event.localizacao}`}</div>
-                  </CCol>
-                  <CCol sm={5} className="d-none d-md-block">
-                    {event.criador !== userId && (
-                      <CButton color="primary" className="float-end">
-                        Participar
-                      </CButton>
-                    )}
-                    <CButton color="success" className="float-end">
-                      Detalhar
-                    </CButton>
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol md={{ span: 6, offset: 3 }}>
-                    <img style={{ maxHeight: '200px' }} src={event.imagem} alt="event banner" />
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol md={12}>
-                    <div>{event.descricao}</div>
-                  </CCol>
-                </CRow>
-              </CCardBody>
-            </CCard>
-          </CCol>
-        ))}
-      </CRow>
-    </>
-  )
+  return <EventList canEdit={false} events={events} refreshEvents={() => getEvents()} />
 }
 
-export default Events
+export default MyEvents

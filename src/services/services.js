@@ -86,6 +86,9 @@ export const createUser = async (data) => {
         })
         return false
       }
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
 
       toasterCallbackFunction({
         color: 'green',
@@ -198,7 +201,7 @@ export const findPublicEvents = async () => {
     })
 }
 
-const formattedDate = (date) => {
+const formatDate = (date) => {
   const dateParts = date.split('-')
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
 }
@@ -211,8 +214,8 @@ export const createEvent = async (data) => {
         titulo: data.title,
         descricao: data.description,
         localizacao: data.location,
-        inicio: formattedDate(data.startDate),
-        termino: formattedDate(data.endDate),
+        inicio: formatDate(data.startDate),
+        termino: formatDate(data.endDate),
         categoria: data.category,
         imagem: data.image,
       },
@@ -223,6 +226,9 @@ export const createEvent = async (data) => {
       },
     )
     .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
       toasterCallbackFunction({
         color: 'green',
         title: 'Sucesso!',
@@ -243,12 +249,30 @@ export const createEvent = async (data) => {
 
 export const updateEvent = async (data) => {
   return await axios
-    .post('evento/update_evento', data, {
-      headers: {
-        Authorization: getToken(),
+    .post(
+      'evento/update_evento',
+      {
+        ativo: data.ativo,
+        categoria: data.categoria,
+        criador: data.criador,
+        descricao: data.descricao,
+        imagem: data.imagem,
+        inicio: formatDate(data.inicio),
+        localizacao: data.localizacao,
+        pkcodevento: data.pkcodevento,
+        termino: formatDate(data.termino),
+        titulo: data.titulo,
       },
-    })
+      {
+        headers: {
+          Authorization: getToken(),
+        },
+      },
+    )
     .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
       toasterCallbackFunction({
         color: 'green',
         title: 'Sucesso!',
@@ -279,6 +303,9 @@ export const deleteEvent = async (pkcodevento) => {
       },
     )
     .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
       toasterCallbackFunction({
         color: 'green',
         title: 'Sucesso!',
@@ -309,6 +336,9 @@ export const updateUser = async (data) => {
       datanascimento: data.birthDate,
     })
     .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
       toasterCallbackFunction({
         color: 'green',
         title: 'Sucesso!',
@@ -335,6 +365,9 @@ export const requestPasswordChange = async (data) => {
       datanascimento: data.birthdate,
     })
     .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
       toasterCallbackFunction({
         color: 'green',
         title: 'Sucesso!',
@@ -349,6 +382,35 @@ export const requestPasswordChange = async (data) => {
       toasterCallbackFunction({
         color: 'red',
         title: 'Erro ao enviar email de recuperação de senha.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
+export const volunteerOnEvent = async (pkcodevento) => {
+  return await axios
+    .post('create_evento_usuario', {
+      pkcodevento: pkcodevento,
+    })
+    .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Você se voluntario no evento com sucesso!',
+      })
+
+      return true
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return volunteerOnEvent(pkcodevento)
+
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao voluntariar-se em evento.',
         body: 'Ocorreu um erro, tente novamente mais tarde.',
       })
       return false
