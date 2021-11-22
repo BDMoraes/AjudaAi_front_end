@@ -1,8 +1,8 @@
 import React from 'react'
 
 const Events = React.lazy(() => import('./views/events/Events'))
-const User_events_particip = React.lazy(() => import('./views/events/User_events_particip'))
-const EventList = React.lazy(() => import('./views/events/EventList'))
+const User_events_particip = React.lazy(() => import('./views/events/VolunteeredEvents'))
+const MyEvents = React.lazy(() => import('./views/events/MyEvents'))
 const Register_events = React.lazy(() => import('./views/icons/flags/Register_events'))
 const Edit_register = React.lazy(() => import('./views/pages/register/Edit_register'))
 
@@ -16,7 +16,7 @@ const routes = [
     name: 'Eventos que participo',
     component: User_events_particip,
   },
-  { path: '/user-events', name: 'Eventos que criei', component: EventList },
+  { path: '/user-events', name: 'Eventos que criei', component: MyEvents },
 ]
 
 export default routes

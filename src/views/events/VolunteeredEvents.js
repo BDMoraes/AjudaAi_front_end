@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { findEvents } from 'src/services/services'
 import EventDetails from './EventDetails'
 
-const Events = () => {
+const VolunteeredEvents = () => {
   const [selectedEvent, setSelectedEvent] = useState()
   const [events, setEvents] = useState([])
 
@@ -74,4 +74,4 @@ const Events = () => {
   return <>{selectedEvent ? renderEventDetail() : renderEventsGallery()}</>
 }
 
-export default Events
+export default VolunteeredEvents

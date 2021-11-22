@@ -130,6 +130,57 @@ export const findEvents = async () => {
       return false
     })
 }
+
+export const findCreatedEvents = async () => {
+  return await axios
+    .get('evento/get_eventos_usuario', {
+      headers: {
+        Authorization: getToken(),
+      },
+    })
+    .then(function (response) {
+      return response?.data?.consulta
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return findCreatedEvents()
+      if (error?.response?.status === 401) {
+        logoutUser()
+        return false
+      }
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao buscar eventos criados.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
+export const findVolunteeredEvents = async () => {
+  return await axios
+    .get('evento/get_eventos_usuario_participacao', {
+      headers: {
+        Authorization: getToken(),
+      },
+    })
+    .then(function (response) {
+      return response?.data?.consulta
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return findVolunteeredEvents()
+      if (error?.response?.status === 401) {
+        logoutUser()
+        return false
+      }
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao buscar eventos criados.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
 export const findPublicEvents = async () => {
   return await axios
     .get('evento/get_eventos_publicos')
@@ -147,6 +198,11 @@ export const findPublicEvents = async () => {
     })
 }
 
+const formattedDate = (date) => {
+  const dateParts = date.split('-')
+  return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
+}
+
 export const createEvent = async (data) => {
   return await axios
     .post(
@@ -155,8 +211,8 @@ export const createEvent = async (data) => {
         titulo: data.title,
         descricao: data.description,
         localizacao: data.location,
-        inicio: data.startDate,
-        termino: data.endDate,
+        inicio: formattedDate(data.startDate),
+        termino: formattedDate(data.endDate),
         categoria: data.category,
         imagem: data.image,
       },

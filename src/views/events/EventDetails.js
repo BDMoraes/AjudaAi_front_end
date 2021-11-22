@@ -56,10 +56,10 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent }) => {
         </CRow>
         <CRow className="justify-content-start">
           <CCol xs={4}>
-            <h3> Térmiono do evento: </h3>
+            <h3> Término do evento: </h3>
           </CCol>
           <CCol xs={6}>
-            <h4>{event.termin}</h4>
+            <h4>{event.termino}</h4>
           </CCol>
         </CRow>
         <CRow className="justify-content-start">
@@ -74,15 +74,18 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent }) => {
           <CCol xs={4}>
             <h3> Inscritos no evento: </h3>
           </CCol>
-          {event.voluntarios.map((event, index) => (
-            <>
-              <CCol key={event.voluntarios + index}></CCol>
-              <CCol xs={6}>
-                <CRow className="justify-content-start">{event.voluntarios.nome}</CRow>
-                <CRow className="justify-content-start">{event.voluntarios.telefone}</CRow>
-              </CCol>
-            </>
-          ))}
+          {event.voluntarios &&
+            event.voluntarios.map((event, index) => (
+              <>
+                <CCol key={event.voluntarios + index}></CCol>
+                <CCol xs={6}>
+                  <CRow className="justify-content-start">{event?.voluntarios?.nome ?? ''}</CRow>
+                  <CRow className="justify-content-start">
+                    {event?.voluntarios?.telefone ?? ''}
+                  </CRow>
+                </CCol>
+              </>
+            ))}
         </CRow>
         <CRow className="justify-content-center">
           <div className="d-grid gap-2">

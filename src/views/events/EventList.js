@@ -1,22 +1,13 @@
 import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
 import React, { useEffect, useState } from 'react'
-import { findEvents } from 'src/services/services'
+import { findCreatedEvents } from 'src/services/services'
 import EventDetails from './EventDetails'
 import EventEdit from './EventEdit'
+import PropTypes from 'prop-types'
 
-const EventList = () => {
+const EventList = ({ events, canEdit, canVolunteer, refreshEvents }) => {
   const [selectedEvent, setSelectedEvent] = useState()
-  const [events, setEvents] = useState([])
   const [page, setPage] = useState('gallery')
-
-  useEffect(() => {
-    getEvents()
-  }, [])
-
-  const getEvents = async () => {
-    const newestEvents = await findEvents()
-    setEvents(newestEvents)
-  }
 
   const openEventDetail = (event) => {
     setSelectedEvent(event)
@@ -37,7 +28,7 @@ const EventList = () => {
         onDeleteEvent={() => {
           setSelectedEvent(undefined)
           setPage('gallery')
-          getEvents()
+          refreshEvents()
         }}
       />
     )
@@ -105,7 +96,20 @@ const EventList = () => {
     )
   }
 
+  if (!events || events.length < 1) {
+    return <div>Nenhum evento encontrado.</div>
+  }
+
+  console.log(events)
+
   return <>{renderPage()}</>
+}
+
+EventList.propTypes = {
+  events: PropTypes.array,
+  canEdit: PropTypes.func,
+  canVolunteer: PropTypes.func,
+  refreshEvents: PropTypes.func,
 }
 
 export default EventList
