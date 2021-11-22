@@ -78,6 +78,15 @@ export const createUser = async (data) => {
       datanascimento: data.birthDate,
     })
     .then(function (response) {
+      if (response?.data?.msg === 'Não foram feitas alterações/inserções de Usuário.') {
+        toasterCallbackFunction({
+          color: 'red',
+          title: 'Erro ao cadastrar usuário.',
+          body: 'Conta com este usuário ou email já está cadastrada.',
+        })
+        return false
+      }
+
       toasterCallbackFunction({
         color: 'green',
         title: 'Sucesso!',

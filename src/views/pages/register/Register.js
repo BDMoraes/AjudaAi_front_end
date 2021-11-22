@@ -24,7 +24,7 @@ const Register = () => {
     fullName: '',
     phone: '',
     email: '',
-    birthdate: '',
+    birthDate: '',
     password: '',
     repeatPassword: '',
     username: '',
@@ -49,10 +49,7 @@ const Register = () => {
   }
 
   const registerUser = async () => {
-    const formattedForm = Object.assign({}, form)
-    const birthDateParts = formattedForm.birthdate.split('-')
-    formattedForm.birthDate = `${birthDateParts[2]}/${birthDateParts[1]}/${birthDateParts[0]}`
-    const response = await createUser(formattedForm)
+    const response = await createUser(form)
     if (response) {
       history.push('/login')
     }
@@ -139,9 +136,9 @@ const Register = () => {
                       type={'date'}
                       required
                       placeholder="Data de nascimento"
-                      autoComplete="birthdate"
-                      value={form.birthdate}
-                      onChange={(event) => handleInputChange('birthdate', event.target.value)}
+                      autoComplete="birthDate"
+                      value={form.birthDate}
+                      onChange={(event) => handleInputChange('birthDate', event.target.value)}
                     />
                   </CInputGroup>
                   <CInputGroup className="mb-3">
