@@ -15,7 +15,7 @@ import {
 } from '@coreui/react'
 import { createEvent } from 'src/services/services'
 
-const Register_events = () => {
+const CreateEvents = () => {
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -189,4 +189,4 @@ const Register_events = () => {
   )
 }
 
-export default Register_events
+export default CreateEvents
