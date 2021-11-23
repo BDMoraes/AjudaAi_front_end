@@ -109,6 +109,28 @@ export const createUser = async (data) => {
     })
 }
 
+export const getLoggedUser = async () => {
+  return await axios
+    .get('usuario/get_usuario', {
+      headers: {
+        Authorization: getToken(),
+      },
+    })
+    .then(function (response) {
+      return response.data
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return getLoggedUser()
+
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao buscar dados do usuário.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return {}
+    })
+}
+
 export const findEvents = async () => {
   return await axios
     .get('evento/get_eventos', {
@@ -202,6 +224,7 @@ export const findPublicEvents = async () => {
 }
 
 const formatDate = (date) => {
+  if (!date || date.split('-').length === 0) return date
   const dateParts = date.split('-')
   return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
 }
@@ -399,15 +422,20 @@ export const deleteEvent = async (pkcodevento) => {
 }
 
 export const updateUser = async (data) => {
+  const body = {
+    nome: data.nome,
+    telefone: data.telefone,
+    email: data.email,
+    datanascimento: formatDate(data.datanascimento),
+  }
+
+  if (data.senha) body.senha = data.senha
+
   return await axios
-    .post('usuario/update_usuario', {
-      pkcodusuario: getUserId(),
-      login: data.email,
-      senha: data.password,
-      nome: data.fullName,
-      telefone: data.phone,
-      email: data.email,
-      datanascimento: data.birthDate,
+    .post('usuario/update_usuario', body, {
+      headers: {
+        Authorization: getToken(),
+      },
     })
     .then(function (response) {
       if (![200, 201].includes(response.status)) {

@@ -11,29 +11,42 @@ import {
   CInputGroup,
   CInputGroupText,
 } from '@coreui/react'
-import React, { useState } from 'react'
-import { updateUser } from 'src/services/services'
+import React, { useEffect, useState } from 'react'
+import { getLoggedUser, updateUser } from 'src/services/services'
 
-const Edit_register = () => {
-  const [form, setForm] = useState({
-    fullName: '',
-    phone: '',
+const EditUser = () => {
+  const [repeateadPasswordCorrect, setRepeatedPasswordCorrect] = useState(true)
+  const [user, setUser] = useState({
+    nome: '',
+    telefone: '',
     email: '',
-    birthdate: '',
-    password: '',
-    repeatPassword: '',
+    datanascimento: '',
+    senha: '',
+    novaSenha: '',
   })
   const [validated, setValidated] = useState(false)
-  const [repeateadPasswordCorrect, setRepeatedPasswordCorrect] = useState(true)
+
+  useEffect(() => {
+    const asyncSetUser = async () => {
+      const requestResponse = await getLoggedUser()
+      const newestUserData = requestResponse?.consulta[0] ?? {}
+
+      newestUserData.senha = ''
+      setUser(newestUserData)
+    }
+    asyncSetUser()
+  }, [])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     event.stopPropagation()
-    if (form.password !== form.repeatPassword) {
+
+    const formattedPassword = user.senha ? user.senha : null
+    const formattedRepeatedPassword = user.novaSenha ? user.novaSenha : null
+    if (formattedPassword !== formattedRepeatedPassword) {
       setRepeatedPasswordCorrect(false)
       return
     }
-
     const validationForm = event.currentTarget
     setValidated(true)
     if (validationForm.checkValidity() === false) {
@@ -43,17 +56,13 @@ const Edit_register = () => {
   }
 
   const handleUserUpdate = async () => {
-    const formattedForm = Object.assign({}, form)
-    const birthDateParts = formattedForm.birthdate.split('-')
-    formattedForm.birthDate = `${birthDateParts[2]}/${birthDateParts[1]}/${birthDateParts[0]}`
-    updateUser(formattedForm)
+    updateUser(user)
   }
 
   const handleInputChange = (name, value) => {
     !repeateadPasswordCorrect && setRepeatedPasswordCorrect(true)
-
-    setForm((actualForm) => ({
-      ...actualForm,
+    setUser((actualUser) => ({
+      ...actualUser,
       [name]: value,
     }))
   }
@@ -76,8 +85,8 @@ const Edit_register = () => {
                 type="text"
                 autoComplete="name"
                 placeholder="Nome completo"
-                value={form.fullName}
-                onChange={(event) => handleInputChange('fullName', event.target.value)}
+                value={user.nome}
+                onChange={(event) => handleInputChange('nome', event.target.value)}
               />
             </CInputGroup>
             <CInputGroup className="mb-3">
@@ -90,8 +99,8 @@ const Edit_register = () => {
                 minLength={10}
                 autoComplete="tel"
                 placeholder="Telefone"
-                value={form.phone}
-                onChange={(event) => handleInputChange('phone', event.target.value)}
+                value={user.telefone}
+                onChange={(event) => handleInputChange('telefone', event.target.value)}
               />
             </CInputGroup>
             <CInputGroup className="mb-3">
@@ -102,7 +111,7 @@ const Edit_register = () => {
                 minLength={5}
                 autoComplete="email"
                 placeholder="Email"
-                value={form.email}
+                value={user.email}
                 onChange={(event) => handleInputChange('email', event.target.value)}
               />
             </CInputGroup>
@@ -112,11 +121,10 @@ const Edit_register = () => {
               </CInputGroupText>
               <CFormInput
                 type="date"
-                required
                 placeholder="Data de nascimento"
                 autoComplete="birthdate"
-                value={form.birthdate}
-                onChange={(event) => handleInputChange('birthdate', event.target.value)}
+                value={user.datanascimento}
+                onChange={(event) => handleInputChange('datanascimento', event.target.value)}
               />
             </CInputGroup>
             <CInputGroup className="mb-3">
@@ -124,13 +132,12 @@ const Edit_register = () => {
                 <CIcon icon={cilLockLocked} />
               </CInputGroupText>
               <CFormInput
-                required
                 type="password"
                 minLength={8}
                 placeholder="Senha"
                 autoComplete="new-password"
-                value={form.password}
-                onChange={(event) => handleInputChange('password', event.target.value)}
+                value={user.senha}
+                onChange={(event) => handleInputChange('senha', event.target.value)}
               />
             </CInputGroup>
             <CInputGroup className="mb-3 has-validation">
@@ -139,12 +146,11 @@ const Edit_register = () => {
               </CInputGroupText>
               <CFormInput
                 invalid={!repeateadPasswordCorrect}
-                required
                 type="password"
                 placeholder="Repetir a senha"
                 autoComplete="new-password"
-                value={form.repeatPassword}
-                onChange={(event) => handleInputChange('repeatPassword', event.target.value)}
+                value={user.novaSenha}
+                onChange={(event) => handleInputChange('novaSenha', event.target.value)}
               />
               <CFormFeedback invalid>A senha é diferente da informada anteriormente.</CFormFeedback>
             </CInputGroup>
@@ -160,4 +166,4 @@ const Edit_register = () => {
   )
 }
 
-export default Edit_register
+export default EditUser

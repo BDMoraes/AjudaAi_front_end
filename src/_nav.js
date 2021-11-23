@@ -20,7 +20,7 @@ const _nav = [
     component: CNavItem,
     icon: <CIcon icon={cilCalendarCheck} customClassName="nav-icon" />,
     name: 'Eventos que participo',
-    to: '/user-events-particip',
+    to: '/volunteer-events',
   },
   {
     component: CNavItem,
