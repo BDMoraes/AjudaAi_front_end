@@ -46,7 +46,7 @@ const AppSidebar = () => {
           <AppSidebarNav items={navigation} />
         </SimpleBar>
       </CSidebarNav>
-      <CSidebarBrand className="d-none d-md-flex" to="/">
+      <CSidebarBrand className="" to="/">
         <CButton style={{ width: '100%', height: '100%' }} onClick={() => logoutUser()}>
           Sair
         </CButton>
