@@ -464,7 +464,7 @@ export const requestPasswordChange = async (data) => {
   return await axios
     .post('recuperar_senha', {
       email: data.email,
-      datanascimento: data.birthdate,
+      datanascimento: formatDate(data.birthdate),
     })
     .then(function (response) {
       if (![200, 201].includes(response.status)) {
