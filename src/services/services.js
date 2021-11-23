@@ -75,7 +75,7 @@ export const createUser = async (data) => {
       nome: data.fullName,
       telefone: data.phone,
       email: data.email,
-      datanascimento: data.birthDate,
+      datanascimento: formatDate(data.birthDate),
     })
     .then(function (response) {
       if (response?.data?.msg === 'Não foram feitas alterações/inserções de Usuário.') {
