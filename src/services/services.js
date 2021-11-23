@@ -291,6 +291,80 @@ export const updateEvent = async (data) => {
     })
 }
 
+export const volunteerOnEvent = async (pkcodevento) => {
+  return await axios
+    .post(
+      'eventousuario/create_evento_usuario',
+      {
+        pkcodevento: pkcodevento,
+      },
+      {
+        headers: {
+          Authorization: getToken(),
+        },
+      },
+    )
+    .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso!',
+        body: 'Você se voluntario no evento com sucesso!',
+      })
+
+      return true
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return volunteerOnEvent(pkcodevento)
+
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao voluntariar-se em evento.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
+export const unvolunteerOnEvent = async (pkcodevento) => {
+  return await axios
+    .post(
+      'eventousuario/delete_evento_usuario',
+      {
+        pkcodevento: pkcodevento,
+      },
+      {
+        headers: {
+          Authorization: getToken(),
+        },
+      },
+    )
+    .then(function (response) {
+      if (![200, 201].includes(response.status)) {
+        throw new Error()
+      }
+      toasterCallbackFunction({
+        color: 'green',
+        title: 'Sucesso.',
+        body: 'Você não é mais voluntario deste evento.',
+      })
+
+      return true
+    })
+    .catch(function (error) {
+      if (error?.response?.status === 422) return unvolunteerOnEvent(pkcodevento)
+
+      toasterCallbackFunction({
+        color: 'red',
+        title: 'Erro ao desvoluntariar-se em evento.',
+        body: 'Ocorreu um erro, tente novamente mais tarde.',
+      })
+      return false
+    })
+}
+
 export const deleteEvent = async (pkcodevento) => {
   return await axios
     .post(
@@ -382,35 +456,6 @@ export const requestPasswordChange = async (data) => {
       toasterCallbackFunction({
         color: 'red',
         title: 'Erro ao enviar email de recuperação de senha.',
-        body: 'Ocorreu um erro, tente novamente mais tarde.',
-      })
-      return false
-    })
-}
-
-export const volunteerOnEvent = async (pkcodevento) => {
-  return await axios
-    .post('create_evento_usuario', {
-      pkcodevento: pkcodevento,
-    })
-    .then(function (response) {
-      if (![200, 201].includes(response.status)) {
-        throw new Error()
-      }
-      toasterCallbackFunction({
-        color: 'green',
-        title: 'Sucesso!',
-        body: 'Você se voluntario no evento com sucesso!',
-      })
-
-      return true
-    })
-    .catch(function (error) {
-      if (error?.response?.status === 422) return volunteerOnEvent(pkcodevento)
-
-      toasterCallbackFunction({
-        color: 'red',
-        title: 'Erro ao voluntariar-se em evento.',
         body: 'Ocorreu um erro, tente novamente mais tarde.',
       })
       return false

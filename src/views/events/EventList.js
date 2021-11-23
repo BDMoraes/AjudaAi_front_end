@@ -30,11 +30,17 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
 
   const handleOnVolunteer = () => {
     refreshEvents()
+    setPage('gallery')
+  }
+
+  const handleOnUnvolunteer = () => {
+    refreshEvents()
+    setPage('gallery')
   }
 
   const handleOnEditted = () => {
     refreshEvents()
-    setPage('detail')
+    setPage('gallery')
   }
 
   const renderEventDetail = () => {
@@ -45,6 +51,7 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
         onBack={() => handleOnBack()}
         onDeleteEvent={canEdit ? () => handleOnDelete() : undefined}
         onVolunteer={!canEdit ? () => handleOnVolunteer() : undefined}
+        onUnvolunteer={!canEdit ? () => handleOnUnvolunteer() : undefined}
       />
     )
   }
