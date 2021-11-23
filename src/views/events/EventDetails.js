@@ -24,6 +24,8 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer }) => 
   const isVolunteer = !!!event?.participa === 'false'
   const canVolunteer = !canEdit && event?.criador !== userId && !isVolunteer
 
+  console.log(event.voluntarios, { isVolunteer, canVolunteer })
+
   return (
     <CCard className="mb-4">
       <CCardHeader>
@@ -82,14 +84,13 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer }) => 
               <h3> Inscritos no evento: </h3>
             </CCol>
             {event.voluntarios &&
-              event.voluntarios.map((event, index) => (
+              event.voluntarios.map((voluntario, index) => (
                 <>
-                  <CCol key={event.voluntarios + index}></CCol>
+                  <CCol key={voluntario + index}></CCol>
                   <CCol xs={6}>
-                    <CRow className="justify-content-start">{event?.voluntarios?.nome ?? ''}</CRow>
-                    <CRow className="justify-content-start">
-                      {event?.voluntarios?.telefone ?? ''}
-                    </CRow>
+                    <CRow className="justify-content-start">{voluntario.nome ?? ''}</CRow>
+                    <CRow className="justify-content-start">{voluntario.telefone ?? ''}</CRow>
+                    <CRow className="justify-content-start">{voluntario.email ?? ''}</CRow>
                   </CCol>
                 </>
               ))}
