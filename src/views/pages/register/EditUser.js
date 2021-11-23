@@ -41,7 +41,9 @@ const EditUser = () => {
     event.preventDefault()
     event.stopPropagation()
 
-    if (user.senha !== user.novaSenha) {
+    const formattedPassword = user.senha ? user.senha : null
+    const formattedRepeatedPassword = user.novaSenha ? user.novaSenha : null
+    if (formattedPassword !== formattedRepeatedPassword) {
       setRepeatedPasswordCorrect(false)
       return
     }
@@ -130,7 +132,6 @@ const EditUser = () => {
                 <CIcon icon={cilLockLocked} />
               </CInputGroupText>
               <CFormInput
-                required
                 type="password"
                 minLength={8}
                 placeholder="Senha"
@@ -145,7 +146,6 @@ const EditUser = () => {
               </CInputGroupText>
               <CFormInput
                 invalid={!repeateadPasswordCorrect}
-                required
                 type="password"
                 placeholder="Repetir a senha"
                 autoComplete="new-password"
