@@ -41,9 +41,9 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer, onUnv
     }
   }
 
-  const getDateFormatted = (date) => {
-    const dateParts = date.substring(0, 10).split('-')
-    return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`
+  const getDateFormatted = (date, hour) => {
+    const dateParts = date.split('-')
+    return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]} ${hour}`
   }
 
   const userId = getUserId()
@@ -84,7 +84,7 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer, onUnv
             <h3> Início do evento: </h3>
           </CCol>
           <CCol xs={6}>
-            <h4>{getDateFormatted(event.inicio)}</h4>
+            <h4>{getDateFormatted(event.dataInicio, event.horaInicio)}</h4>
           </CCol>
         </CRow>
         <CRow className="justify-content-start">
@@ -92,7 +92,7 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer, onUnv
             <h3> Término do evento: </h3>
           </CCol>
           <CCol xs={6}>
-            <h4>{getDateFormatted(event.termino)}</h4>
+            <h4>{getDateFormatted(event.dataTermino, event.horaTermino)}</h4>
           </CCol>
         </CRow>
         <CRow className="justify-content-start">

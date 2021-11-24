@@ -139,7 +139,7 @@ export const findEvents = async () => {
       },
     })
     .then(function (response) {
-      return response?.data?.consulta
+      return formatDateAndHourToDisplay(response?.data?.consulta)
     })
     .catch(function (error) {
       if (error?.response?.status === 422) return findEvents()
@@ -164,7 +164,7 @@ export const findCreatedEvents = async () => {
       },
     })
     .then(function (response) {
-      return response?.data?.consulta
+      return formatDateAndHourToDisplay(response?.data?.consulta)
     })
     .catch(function (error) {
       if (error?.response?.status === 422) return findCreatedEvents()
@@ -189,7 +189,7 @@ export const findVolunteeredEvents = async () => {
       },
     })
     .then(function (response) {
-      return response?.data?.consulta
+      return formatDateAndHourToDisplay(response?.data?.consulta)
     })
     .catch(function (error) {
       if (error?.response?.status === 422) return findVolunteeredEvents()
@@ -210,7 +210,7 @@ export const findPublicEvents = async () => {
   return await axios
     .get('evento/get_eventos_publicos')
     .then(function (response) {
-      return response?.data?.consulta
+      return formatDateAndHourToDisplay(response?.data?.consulta)
     })
     .catch(function (error) {
       if (error?.response?.status === 422) return findPublicEvents()
@@ -237,8 +237,8 @@ export const createEvent = async (data) => {
         titulo: data.title,
         descricao: data.description,
         localizacao: data.location,
-        inicio: formatDate(data.startDate),
-        termino: formatDate(data.endDate),
+        inicio: formatDateAndHourToRequest(formatDate(data.startDate), data.startHour),
+        termino: formatDateAndHourToRequest(formatDate(data.endDate), data.endHour),
         categoria: data.category,
         imagem: data.image,
       },
@@ -270,6 +270,25 @@ export const createEvent = async (data) => {
     })
 }
 
+const formatDateAndHourToDisplay = (events) => {
+  if (events && events.length > 0) {
+    return events.map((event) => {
+      const fullStartDate = event.inicio || ''
+      const fullEndDate = event.termino || ''
+      event.dataInicio = fullStartDate.substring(0, 10)
+      event.horaInicio = fullStartDate.substring(11, 16)
+      event.dataTermino = fullEndDate.substring(0, 10)
+      event.horaTermino = fullEndDate.substring(11, 16)
+      return event
+    })
+  }
+  return events
+}
+
+const formatDateAndHourToRequest = (date, hour) => {
+  return `${date} ${hour}:00`
+}
+
 export const updateEvent = async (data) => {
   return await axios
     .post(
@@ -280,10 +299,10 @@ export const updateEvent = async (data) => {
         criador: data.criador,
         descricao: data.descricao,
         imagem: data.imagem,
-        inicio: formatDate(data.inicio),
+        inicio: formatDateAndHourToRequest(formatDate(data.dataInicio), data.horaInicio),
+        termino: formatDateAndHourToRequest(formatDate(data.dataTermino), data.horaTermino),
         localizacao: data.localizacao,
         pkcodevento: data.pkcodevento,
-        termino: formatDate(data.termino),
         titulo: data.titulo,
       },
       {

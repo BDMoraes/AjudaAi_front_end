@@ -67,6 +67,11 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
     if (page === 'edit') return renderEventEdit()
   }
 
+  const formatEventDate = (date, hour) => {
+    const dateParts = date.split('-')
+    return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]} ${hour}`
+  }
+
   const renderEventsGallery = () => {
     return (
       <CRow>
@@ -79,8 +84,14 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
                     <h4 id="traffic" className="card-title mb-0">
                       {event.titulo}
                     </h4>
-                    <div className="small text-medium-emphasis">{`De: ${event.inicio}`}</div>
-                    <div className="small text-medium-emphasis">{`Até: ${event.termino}`}</div>
+                    <div className="small text-medium-emphasis">{`De: ${formatEventDate(
+                      event.dataInicio,
+                      event.horaInicio,
+                    )}`}</div>
+                    <div className="small text-medium-emphasis">{`Até: ${formatEventDate(
+                      event.dataTermino,
+                      event.horaTermino,
+                    )}`}</div>
                     <div className="small text-medium-emphasis">{`Localização: ${event.localizacao}`}</div>
                   </CCol>
                   <CCol sm={5} className="d-none d-md-block">

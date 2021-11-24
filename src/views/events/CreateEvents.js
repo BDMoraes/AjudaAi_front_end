@@ -24,6 +24,8 @@ const CreateEvents = () => {
     startDate: '',
     endDate: '',
     image: '',
+    startHour: '',
+    endHour: '',
   })
 
   const [validated, setValidated] = useState(false)
@@ -140,11 +142,11 @@ const CreateEvents = () => {
             </CFormSelect>
           </CCol>
           <CCol md={6}>
-            <CFormLabel htmlFor="inputDataInicio">Data e horário de início:</CFormLabel>
+            <CFormLabel htmlFor="inputDataInicio">Data de início:</CFormLabel>
             <CFormInput
               type="date"
               id="inputDataInicio"
-              placeholder="24/10/2021 20:50"
+              placeholder="24/10/2021"
               required
               value={form.startDate}
               onChange={(event) => handleChange('startDate', event.target.value)}
@@ -153,17 +155,43 @@ const CreateEvents = () => {
             <CFormFeedback valid>Data válida</CFormFeedback>
           </CCol>
           <CCol md={6}>
-            <CFormLabel htmlFor="inputDataTermino">Data e horário de término:</CFormLabel>
+            <CFormLabel htmlFor="inputHoraInicio">Horário de início:</CFormLabel>
+            <CFormInput
+              type="time"
+              id="inputHoraInicio"
+              placeholder="20:50"
+              required
+              value={form.startHour}
+              onChange={(event) => handleChange('startHour', event.target.value)}
+            />
+            <CFormFeedback invalid>Insira uma hora válida.</CFormFeedback>
+            <CFormFeedback valid>Hora válida</CFormFeedback>
+          </CCol>
+          <CCol md={6}>
+            <CFormLabel htmlFor="inputDataTermino">Data de término:</CFormLabel>
             <CFormInput
               type="date"
               id="inputDataTermino"
-              placeholder="25/10/2021 20:50"
+              placeholder="25/10/2021"
               required
               value={form.endDate}
               onChange={(event) => handleChange('endDate', event.target.value)}
             />
             <CFormFeedback invalid>Insira uma data válida.</CFormFeedback>
             <CFormFeedback valid>Data válida</CFormFeedback>
+          </CCol>
+          <CCol md={6}>
+            <CFormLabel htmlFor="inputHoraTermino">Horário de término:</CFormLabel>
+            <CFormInput
+              type="time"
+              id="inputHoraTermino"
+              placeholder="20:50"
+              required
+              value={form.endHour}
+              onChange={(event) => handleChange('endHour', event.target.value)}
+            />
+            <CFormFeedback invalid>Insira uma hora válida.</CFormFeedback>
+            <CFormFeedback valid>Hora válida</CFormFeedback>
           </CCol>
           <CCol xs={12}>
             <CFormLabel htmlFor="inputDataInicio">Imagem do evento:</CFormLabel>
