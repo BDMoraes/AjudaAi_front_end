@@ -105,8 +105,8 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
                   </CCol>
                 </CRow>
                 <CRow>
-                  <CCol md={{ span: 6, offset: 3 }}>
-                    <img style={{ maxHeight: '200px' }} src={event.imagem} alt="event banner" />
+                  <CCol md={{ span: 12 }} style={{ alignItems: 'center' }}>
+                    <img style={{ maxWidth: '100%' }} src={event.imagem} alt="event banner" />
                   </CCol>
                 </CRow>
                 <CRow>

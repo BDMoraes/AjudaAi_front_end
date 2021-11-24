@@ -13,6 +13,7 @@ import {
   CInputGroupText,
   CInputGroup,
 } from '@coreui/react'
+import { useHistory } from 'react-router-dom'
 import { createEvent } from 'src/services/services'
 
 const CreateEvents = () => {
@@ -27,8 +28,8 @@ const CreateEvents = () => {
     startHour: '',
     endHour: '',
   })
-
   const [validated, setValidated] = useState(false)
+  const history = useHistory()
 
   const handleSubmit = (formEvent) => {
     formEvent.preventDefault()
@@ -71,8 +72,9 @@ const CreateEvents = () => {
     })
   }
 
-  const postNewEvent = () => {
-    createEvent(form)
+  const postNewEvent = async () => {
+    const result = await createEvent(form)
+    if (result) history.push('/')
   }
 
   return (
