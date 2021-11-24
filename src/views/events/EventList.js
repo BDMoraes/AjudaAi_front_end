@@ -94,7 +94,7 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
                     )}`}</div>
                     <div className="small text-medium-emphasis">{`Localização: ${event.localizacao}`}</div>
                   </CCol>
-                  <CCol sm={5} className="d-none d-md-block">
+                  <CCol sm={5} className="">
                     <CButton
                       color="success"
                       className="float-end"
