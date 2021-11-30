@@ -1,12 +1,34 @@
-import { CButton, CCard, CCardBody, CCol, CRow } from '@coreui/react'
-import React, { useState } from 'react'
+import {
+  CButton,
+  CCard,
+  CCardBody,
+  CCol,
+  CDropdown,
+  CDropdownDivider,
+  CDropdownItem,
+  CDropdownMenu,
+  CDropdownToggle,
+  CForm,
+  CFormCheck,
+  CFormInput,
+  CFormLabel,
+  CRow,
+} from '@coreui/react'
+import React, { useEffect, useState } from 'react'
 import EventDetails from './EventDetails'
 import EventEdit from './EventEdit'
 import PropTypes from 'prop-types'
+import CIcon from '@coreui/icons-react'
+import { cilSearch } from '@coreui/icons'
 
-const EventList = ({ events, canEdit, refreshEvents }) => {
+const EventList = ({ events, canEdit, canVolunteer, refreshEvents, filterEvents }) => {
   const [selectedEvent, setSelectedEvent] = useState()
   const [page, setPage] = useState('gallery')
+  const [filter, setFilter] = useState('ALL')
+
+  useEffect(() => {
+    filterEvents(filter === 'ALL' ? undefined : filter)
+  }, [filter])
 
   const openEventDetail = (event) => {
     setSelectedEvent(event)
@@ -48,6 +70,7 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
       <EventDetails
         event={selectedEvent}
         onEdit={canEdit ? () => handleOnEdit() : undefined}
+        canVolunteer={canVolunteer}
         onBack={() => handleOnBack()}
         onDeleteEvent={canEdit ? () => handleOnDelete() : undefined}
         onVolunteer={!canEdit ? () => handleOnVolunteer() : undefined}
@@ -126,13 +149,59 @@ const EventList = ({ events, canEdit, refreshEvents }) => {
     return <div>Nenhum evento encontrado.</div>
   }
 
-  return <>{renderPage()}</>
+  const FILTER_OPTIONS = [
+    { value: 'ALL', label: 'Todos' },
+    { value: 'MAO_DE_OBRA', label: 'Mão de obra' },
+    { value: 'AJUDA_FINANCEIRA', label: 'Ajuda financeira' },
+    { value: 'ALIMENTOS', label: 'Alimentos' },
+    { value: 'ROUPAS', label: 'Roupas' },
+    { value: 'OUTROS', label: 'Outros' },
+  ]
+
+  const renderFilter = () => {
+    return (
+      <CDropdown>
+        <CDropdownToggle color="info">
+          Filtrar <CIcon icon={cilSearch} />
+        </CDropdownToggle>
+        <CDropdownMenu>
+          {FILTER_OPTIONS.map((item, index) => (
+            <CDropdownItem
+              key={item}
+              style={{ cursor: 'pointer' }}
+              onClick={() => setFilter(item.value)}
+              active={item.value === filter}
+            >
+              {item.label}
+            </CDropdownItem>
+          ))}
+        </CDropdownMenu>
+      </CDropdown>
+    )
+  }
+
+  return (
+    <div style={{ width: '100%' }}>
+      {renderFilter()}
+      <div
+        style={{
+          maxWidth: 1320,
+          marginRight: 'auto',
+          marginLeft: 'auto',
+        }}
+      >
+        {renderPage()}
+      </div>
+    </div>
+  )
 }
 
 EventList.propTypes = {
   events: PropTypes.array,
   canEdit: PropTypes.func,
   refreshEvents: PropTypes.func,
+  filterEvents: PropTypes.func,
+  canVolunteer: PropTypes.bool,
 }
 
 export default EventList

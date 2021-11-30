@@ -9,12 +9,19 @@ const VolunteeredEvents = () => {
     getEvents()
   }, [])
 
-  const getEvents = async () => {
-    const newestEvents = await findVolunteeredEvents()
+  const getEvents = async (filter) => {
+    const newestEvents = await findVolunteeredEvents(filter ? { categoria: filter } : {})
     setEvents(newestEvents)
   }
 
-  return <EventList canEdit={false} events={events} refreshEvents={() => getEvents()} />
+  return (
+    <EventList
+      canEdit={false}
+      events={events}
+      refreshEvents={() => getEvents()}
+      filterEvents={(filter) => getEvents(filter)}
+    />
+  )
 }
 
 export default VolunteeredEvents

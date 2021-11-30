@@ -3,7 +3,15 @@ import { CButton, CCard, CCardBody, CCol, CRow, CCardHeader } from '@coreui/reac
 import PropTypes from 'prop-types'
 import { deleteEvent, getUserId, unvolunteerOnEvent, volunteerOnEvent } from 'src/services/services'
 
-const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer, onUnvolunteer }) => {
+const EventDetails = ({
+  event,
+  onBack,
+  canVolunteer,
+  onEdit,
+  onDeleteEvent,
+  onVolunteer,
+  onUnvolunteer,
+}) => {
   if (!event) {
     onBack()
     return <div />
@@ -46,11 +54,17 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer, onUnv
     return `${dateParts[2]}/${dateParts[1]}/${dateParts[0]} ${hour}`
   }
 
+  const renderVolunteerData = (title, value) => {
+    return value ? <div>{`${title}: ${value}`}</div> : undefined
+  }
+
   const userId = getUserId()
   const canEdit = !!onEdit
   const isVolunteer = event.participa !== 'false'
-  const canVolunteer = !canEdit && event?.criador !== userId && !isVolunteer
-  const canUnvolunteer = !canEdit && event?.criador !== userId && isVolunteer
+  const showVolunteer =
+    !canEdit && event?.criador !== userId && !isVolunteer && canVolunteer !== false
+  const canUnvolunteer =
+    !canEdit && event?.criador !== userId && isVolunteer && canVolunteer !== false
 
   return (
     <CCard className="mb-4">
@@ -63,75 +77,65 @@ const EventDetails = ({ event, onBack, onEdit, onDeleteEvent, onVolunteer, onUnv
             <img style={{ maxHeight: '300px' }} src={event.imagem} alt="event banner" />
           </CCol>
         </CRow>
-        <CRow className="justify-content-start">
+        <CRow className="justify-content-start mb-2">
           <CCol xs={4}>
-            <h3> Descrição: </h3>
+            <h4> Descrição: </h4>
           </CCol>
-          <CCol xs={6}>
-            <h4>{event.descricao}</h4>
-          </CCol>
+          <CCol xs={6}>{event.descricao}</CCol>
         </CRow>
-        <CRow className="justify-content-start">
+        <CRow className="justify-content-start mb-2">
           <CCol xs={4}>
-            <h3> Local: </h3>
+            <h4> Local: </h4>
           </CCol>
-          <CCol xs={6}>
-            <h4>{event.localizacao}</h4>
-          </CCol>
+          <CCol xs={6}>{event.localizacao}</CCol>
         </CRow>
-        <CRow className="justify-content-start">
+        <CRow className="justify-content-start mb-2">
           <CCol xs={4}>
-            <h3> Início do evento: </h3>
+            <h4> Início do evento: </h4>
           </CCol>
-          <CCol xs={6}>
-            <h4>{getDateFormatted(event.dataInicio, event.horaInicio)}</h4>
-          </CCol>
+          <CCol xs={6}>{getDateFormatted(event.dataInicio, event.horaInicio)}</CCol>
         </CRow>
-        <CRow className="justify-content-start">
+        <CRow className="justify-content-start mb-2">
           <CCol xs={4}>
-            <h3> Término do evento: </h3>
+            <h4> Término do evento: </h4>
           </CCol>
-          <CCol xs={6}>
-            <h4>{getDateFormatted(event.dataTermino, event.horaTermino)}</h4>
-          </CCol>
+          <CCol xs={6}>{getDateFormatted(event.dataTermino, event.horaTermino)}</CCol>
         </CRow>
-        <CRow className="justify-content-start">
+        <CRow className="justify-content-start mb-2">
           <CCol xs={4}>
-            <h3> Propósito do evento: </h3>
+            <h4> Propósito do evento: </h4>
           </CCol>
-          <CCol xs={6}>
-            <h4>{getEventCategoryFormatted()}</h4>
-          </CCol>
+          <CCol xs={6}>{getEventCategoryFormatted()}</CCol>
         </CRow>
 
         {canEdit ? (
-          <CRow className="justify-content-start">
+          <CRow className="justify-content-start mb-2">
             <CCol xs={4}>
-              <h3> Inscritos no evento: </h3>
+              <h4> Inscritos no evento: </h4>
             </CCol>
-            {event.voluntarios &&
-              event.voluntarios.map((voluntario, index) => (
-                <>
-                  <CCol key={voluntario + index}></CCol>
-                  <CCol xs={6}>
-                    <CRow className="justify-content-start">{voluntario.nome ?? ''}</CRow>
-                    <CRow className="justify-content-start">{voluntario.telefone ?? ''}</CRow>
-                    <CRow className="justify-content-start">{voluntario.email ?? ''}</CRow>
-                  </CCol>
-                </>
-              ))}
+            <CCol xs={6}>
+              {event.voluntarios &&
+                event.voluntarios.map((voluntario, index) => (
+                  <div key={voluntario + index}>
+                    {renderVolunteerData('Nome', voluntario.nome)}
+                    {renderVolunteerData('Telefone', voluntario.telefone)}
+                    {renderVolunteerData('Email', voluntario.email)}
+                    <hr />
+                  </div>
+                ))}
+            </CCol>
           </CRow>
         ) : undefined}
         {/* {!canEdit && (
           <CRow className="justify-content-start">
             <CCol xs={12}>
-              <h3> Inscritos no evento: {event?.voluntarios?.length ?? 0}</h3>
+              <h4> Inscritos no evento: {event?.voluntarios?.length ?? 0}</h4>
             </CCol>
           </CRow>
         )} */}
         <CRow className="justify-content-center">
           <div className="d-grid gap-2">
-            {canVolunteer && (
+            {showVolunteer && (
               <CButton color="success" onClick={() => handleVolunteerOnEvent()}>
                 Voluntariar-se
               </CButton>
@@ -167,6 +171,7 @@ EventDetails.propTypes = {
   onDeleteEvent: PropTypes.func,
   onVolunteer: PropTypes.func,
   onUnvolunteer: PropTypes.func,
+  canVolunteer: PropTypes.bool,
 }
 
 export default EventDetails

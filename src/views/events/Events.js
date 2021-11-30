@@ -2,19 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { findEvents } from 'src/services/services'
 import EventList from './EventList'
 
-const MyEvents = () => {
+const Events = () => {
   const [events, setEvents] = useState([])
 
   useEffect(() => {
     getEvents()
   }, [])
 
-  const getEvents = async () => {
-    const newestEvents = await findEvents()
+  const getEvents = async (filter) => {
+    const newestEvents = await findEvents(filter ? { categoria: filter } : {})
     setEvents(newestEvents)
   }
 
-  return <EventList canEdit={false} events={events} refreshEvents={() => getEvents()} />
+  return (
+    <div style={{ width: '100%' }}>
+      <EventList
+        canEdit={false}
+        events={events}
+        refreshEvents={() => getEvents()}
+        filterEvents={(filter) => getEvents(filter)}
+      />
+    </div>
+  )
 }
 
-export default MyEvents
+export default Events

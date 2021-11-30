@@ -4,9 +4,23 @@ import { Redirect, Route, Switch } from 'react-router-dom'
 // routes config
 import routes from '../routes'
 
+const renderEventRoute = (route, props) => {
+  return <route.component {...props} />
+}
+
+const renderDefaultRoute = (route, props) => {
+  return (
+    <div style={{ justifyContent: 'center', width: '100%' }}>
+      <div style={{ maxWidth: '1350px', marginRight: 'auto', marginLeft: 'auto' }}>
+        <route.component {...props} />
+      </div>
+    </div>
+  )
+}
+
 const AppContent = () => {
   return (
-    <CContainer lg>
+    <CContainer fluid>
       <Suspense fallback={<CSpinner color="primary" />}>
         <Switch>
           {routes.map((route, idx) => {
@@ -17,11 +31,11 @@ const AppContent = () => {
                   path={route.path}
                   exact={route.exact}
                   name={route.name}
-                  render={(props) => (
-                    <>
-                      <route.component {...props} />
-                    </>
-                  )}
+                  render={(props) => {
+                    return route.isEvent
+                      ? renderEventRoute(route, props)
+                      : renderDefaultRoute(route, props)
+                  }}
                 />
               )
             )

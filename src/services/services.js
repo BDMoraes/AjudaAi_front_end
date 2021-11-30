@@ -131,9 +131,10 @@ export const getLoggedUser = async () => {
     })
 }
 
-export const findEvents = async () => {
+export const findEvents = async (filter) => {
   return await axios
     .get('evento/get_eventos', {
+      params: filter ?? {},
       headers: {
         Authorization: getToken(),
       },
@@ -156,9 +157,10 @@ export const findEvents = async () => {
     })
 }
 
-export const findCreatedEvents = async () => {
+export const findCreatedEvents = async (filter) => {
   return await axios
     .get('evento/get_eventos_usuario', {
+      params: filter ?? {},
       headers: {
         Authorization: getToken(),
       },
@@ -181,9 +183,10 @@ export const findCreatedEvents = async () => {
     })
 }
 
-export const findVolunteeredEvents = async () => {
+export const findVolunteeredEvents = async (filter) => {
   return await axios
     .get('evento/get_eventos_usuario_participacao', {
+      params: filter ?? {},
       headers: {
         Authorization: getToken(),
       },
@@ -206,9 +209,11 @@ export const findVolunteeredEvents = async () => {
     })
 }
 
-export const findPublicEvents = async () => {
+export const findPublicEvents = async (filter) => {
   return await axios
-    .get('evento/get_eventos_publicos')
+    .get('evento/get_eventos_publicos', {
+      params: filter ?? {},
+    })
     .then(function (response) {
       return formatDateAndHourToDisplay(response?.data?.consulta)
     })
