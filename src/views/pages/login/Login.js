@@ -156,6 +156,12 @@ const Login = () => {
                   Cadastrar-se agora!
                 </CButton>
               </Link>
+              <br />
+              <Link to="/public-events">
+                <CButton color="primary" className="mt-3" active tabIndex={-1}>
+                  Ver eventos
+                </CButton>
+              </Link>
             </div>
           </CCardBody>
         </CCard>
