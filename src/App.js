@@ -1,7 +1,7 @@
-import { CToast, CToastBody, CToaster, CToastHeader } from '@coreui/react'
+import { CSpinner, CToast, CToastBody, CToaster, CToastHeader } from '@coreui/react'
 import React, { useEffect, useRef, useState } from 'react'
 import { HashRouter, Route, Switch } from 'react-router-dom'
-import { toasterCallback } from 'src/services/services'
+import { toasterCallback, showLoader, hideLoader } from 'src/services/services'
 import './scss/style.scss'
 
 const loading = (
@@ -20,9 +20,9 @@ const PublicEvents = React.lazy(() => import('./views/pages/public-events/Public
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
-// class App extends Component {
 const App = () => {
   const [toast, addToast] = useState(0)
+  const [loader, setLoader] = useState(false)
 
   const toaster = useRef()
 
@@ -48,11 +48,39 @@ const App = () => {
         </CToast>,
       ),
     )
+    showLoader(() => setLoader(true))
+    hideLoader(() => setLoader(false))
   }, [])
 
   return (
-    <>
-      <CToaster ref={toaster} push={toast} placement="top-end" />
+    <div>
+      {loader && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(16, 16, 16, 0.5)',
+            zIndex: 999,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <CSpinner
+            style={{
+              marginTop: '25%',
+              marginLeft: '50%',
+              height: '5rem',
+              width: '5rem',
+              borderWidth: '0.5em',
+            }}
+            color="info"
+          />
+        </div>
+      )}
+      <CToaster ref={toaster} push={toast} placement="center" />
       <HashRouter>
         <React.Suspense fallback={loading}>
           <Switch>
@@ -80,9 +108,8 @@ const App = () => {
           </Switch>
         </React.Suspense>
       </HashRouter>
-    </>
+    </div>
   )
-  // }
 }
 
 export default App
