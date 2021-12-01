@@ -84,7 +84,7 @@ const EventList = ({ events, canEdit, canVolunteer, refreshEvents, filterEvents 
   }
 
   const renderPage = () => {
-    if (!events) return <div>Nenhum evento a ser listado</div>
+    if (!events || events.length < 1) return <div>Nenhum evento encontrado.</div>
     if (page === 'gallery') return renderEventsGallery()
     if (page === 'detail') return renderEventDetail()
     if (page === 'edit') return renderEventEdit()
@@ -145,10 +145,6 @@ const EventList = ({ events, canEdit, canVolunteer, refreshEvents, filterEvents 
     )
   }
 
-  if (!events || events.length < 1) {
-    return <div>Nenhum evento encontrado.</div>
-  }
-
   const FILTER_OPTIONS = [
     { value: 'ALL', label: 'Todos' },
     { value: 'MAO_DE_OBRA', label: 'Mão de obra' },
@@ -157,6 +153,8 @@ const EventList = ({ events, canEdit, canVolunteer, refreshEvents, filterEvents 
     { value: 'ROUPAS', label: 'Roupas' },
     { value: 'OUTROS', label: 'Outros' },
   ]
+
+  const renderContent = () => {}
 
   const renderFilter = () => {
     return (
